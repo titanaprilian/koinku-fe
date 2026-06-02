@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Type, type Static } from '@sinclair/typebox';
+import { Type, type Static, FormatRegistry } from '@sinclair/typebox';
 import { Mail, Lock, Loader2, LogIn } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -8,6 +8,10 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { useLogin } from '../hooks/use-login';
 import { isAxiosError } from 'axios';
+
+FormatRegistry.Set('email', (value) =>
+  /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value)
+);
 
 const LoginSchema = Type.Object({
   email: Type.String({
