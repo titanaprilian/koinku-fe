@@ -1,26 +1,26 @@
 import { useMutation } from '@tanstack/react-query';
-import { useRouter } from '@tanstack/react-router';
+import { useRouter, useSearch } from '@tanstack/react-router';
 import { loginApi } from '../api';
 import type { LoginRequest } from '../types';
 import { authService } from '../auth-service';
 
 export function useLogin() {
   const router = useRouter();
+  // Typed search params from the /login route — redirect is a pathname string
+  const { redirect } = useSearch({ from: '/login' });
 
   return useMutation({
     mutationFn: (credentials: LoginRequest) => loginApi(credentials),
     onSuccess: async (data) => {
-      // Persist tokens and user via AuthService
+      // Persist tokens and user — this triggers authService._notify(),
+      // which calls setAuth in InnerApp, causing a re-render with fresh context
       authService.setSession(data.data);
 
-      // Wait for the router to re-evaluate context with fresh auth state.
-      // This ensures beforeLoad guards see isAuthenticated: true.
+      // Wait for the router to re-evaluate context with the fresh auth state
       await router.invalidate();
 
       // Navigate to the originally requested page, or home
-      const search = new URLSearchParams(window.location.search);
-      const redirectTo = search.get('redirect') || '/';
-      router.navigate({ to: redirectTo });
+      router.navigate({ to: redirect ?? '/' });
     },
     onError: (error) => {
       console.error('[useLogin] login failed:', error);

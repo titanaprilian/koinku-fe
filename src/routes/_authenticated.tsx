@@ -6,7 +6,8 @@ export const Route = createFileRoute('/_authenticated')({
       throw redirect({
         to: '/login',
         search: {
-          redirect: location.href,
+          // Use pathname only — router.navigate({ to }) expects a route path
+          redirect: location.pathname,
         },
       });
     }
