@@ -1,5 +1,5 @@
 import { Link, useRouter } from '@tanstack/react-router';
-import { User, LogOut } from 'lucide-react';
+import { User, LogOut, Menu } from 'lucide-react';
 import { authService } from '@/features/auth/auth-service';
 import { logoutApi } from '@/features/auth/api';
 import { useMe } from '@/features/auth/hooks/use-me';
@@ -15,7 +15,11 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-export function Navbar() {
+export interface NavbarProps {
+  onMenuClick: () => void;
+}
+
+export function Navbar({ onMenuClick }: NavbarProps) {
   const router = useRouter();
   const { data } = useMe();
   const profile = data?.data;
@@ -41,6 +45,16 @@ export function Navbar() {
 
   return (
     <header className="h-16 border-b bg-background flex items-center justify-between px-6">
+      <Button
+        variant="ghost"
+        size="icon"
+        className="md:hidden mr-2"
+        onClick={onMenuClick}
+        aria-label="Open menu"
+      >
+        <Menu className="w-5 h-5" />
+      </Button>
+
       <div className="flex-1" /> {/* Spacer */}
       
       <div className="flex items-center gap-4">
