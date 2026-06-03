@@ -64,10 +64,10 @@ api.interceptors.response.use(
     _isRefreshing = true;
 
     try {
-      // No body needed — the HttpOnly cookie is sent automatically
+      // Pass an empty object {} as body to satisfy backend schema validation
       const response = await api.post<{
         data: { access_token: string; user: import('@/features/auth/types').AuthUser };
-      }>('/auth/refresh');
+      }>('/auth/refresh', {});
 
       const newData = response.data.data;
       authService.setSession(newData);
