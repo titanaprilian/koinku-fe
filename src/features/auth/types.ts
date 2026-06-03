@@ -23,3 +23,10 @@ export interface ApiResponse<T> {
 }
 
 export type LoginResponse = ApiResponse<LoginResponseData>;
+
+export interface AuthState {
+  isAuthenticated: boolean;
+  user: AuthUser | null;
+  accessToken: string | null;
+}
+
