@@ -29,9 +29,10 @@ declare module '@tanstack/react-router' {
 }
 
 async function bootstrap() {
-  // Silently attempt to restore the session from a stored refresh token.
-  // This runs before React mounts so the router context starts with
-  // correct auth state and the user doesn't see a flash of the login page.
+  // Silently attempt to restore the session from the HttpOnly cookie.
+  // The browser sends the refresh_token cookie automatically — no token
+  // is read from storage. This runs before React mounts so the router
+  // context starts with correct auth state.
   await authService.init(refreshApi);
 
   createRoot(document.getElementById('root')!).render(
@@ -47,4 +48,3 @@ async function bootstrap() {
 }
 
 bootstrap();
-
