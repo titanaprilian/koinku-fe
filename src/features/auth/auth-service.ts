@@ -1,6 +1,5 @@
-import type { AuthUser, LoginResponseData, AuthState, RefreshRequest } from './types';
+import type { AuthUser, LoginResponseData, AuthState } from './types';
 
-const REFRESH_TOKEN_KEY = 'refresh_token';
 const USER_KEY = 'auth_user';
 
 export class AuthService {
@@ -11,10 +10,6 @@ export class AuthService {
 
   getAccessToken(): string | null {
     return this._accessToken;
-  }
-
-  getRefreshToken(): string | null {
-    return sessionStorage.getItem(REFRESH_TOKEN_KEY);
   }
 
   getUser(): AuthUser | null {
@@ -36,14 +31,12 @@ export class AuthService {
   setSession(data: LoginResponseData): void {
     // Access token stored in-memory only
     this._accessToken = data.access_token;
-    // Refresh token and user stored in sessionStorage (tab-scoped)
-    sessionStorage.setItem(REFRESH_TOKEN_KEY, data.refresh_token);
+    // User metadata stored in sessionStorage for display purposes
     sessionStorage.setItem(USER_KEY, JSON.stringify(data.user));
   }
 
   clearSession(): void {
     this._accessToken = null;
-    sessionStorage.removeItem(REFRESH_TOKEN_KEY);
     sessionStorage.removeItem(USER_KEY);
   }
 
@@ -58,24 +51,22 @@ export class AuthService {
   // ─── Initialisation (call once on app startup) ───────────────────────────────
 
   /**
-   * Attempts to silently restore a session from a stored refresh token.
+   * Attempts to silently restore a session by calling the refresh endpoint.
+   * The browser sends the HttpOnly refresh_token cookie automatically.
    * Call this before mounting the React app.
    *
-   * @param refreshFn - Function that calls POST /auth/refresh with the stored token
+   * @param refreshFn - Function that calls POST /auth/refresh (no body needed)
    * @returns true if session was restored, false otherwise
    */
   async init(
-    refreshFn: (body: RefreshRequest) => Promise<{ data: LoginResponseData }>
+    refreshFn: () => Promise<{ data: LoginResponseData }>
   ): Promise<boolean> {
-    const storedRefreshToken = this.getRefreshToken();
-    if (!storedRefreshToken) return false;
-
     try {
-      const response = await refreshFn({ refresh_token: storedRefreshToken });
+      const response = await refreshFn();
       this.setSession(response.data);
       return true;
     } catch {
-      // Refresh token is invalid or expired — clear storage
+      // No valid refresh cookie or expired — user must log in
       this.clearSession();
       return false;
     }
