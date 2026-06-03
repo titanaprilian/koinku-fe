@@ -15,8 +15,8 @@ A production-ready React starter template with JWT authentication, type-safe rou
 ## Getting Started
 
 ```bash
-git clone https://github.com/titanaprilian/koinku-fe.git
-cd koinku-fe
+git clone https://github.com/titanaprilian/tanstack-auth-starter-fe.git
+cd tanstack-auth-starter-fe
 bun install
 cp .env.example .env.local   # see Environment Variables below
 bun run dev
