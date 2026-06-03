@@ -11,7 +11,6 @@ export interface AuthUser {
 
 export interface LoginResponseData {
   access_token: string;
-  refresh_token: string;
   user: AuthUser;
 }
 
@@ -30,10 +29,4 @@ export interface AuthState {
   accessToken: string | null;
 }
 
-export interface RefreshRequest {
-  refresh_token: string;
-}
-
 export type RefreshResponse = ApiResponse<LoginResponseData>;
-
-
