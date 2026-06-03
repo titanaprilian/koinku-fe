@@ -44,7 +44,38 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // Only attempt refresh on 401, and only once per request
+    // Helper function to handle session cleanup, logout call, and redirect
+    const handleTokenRevocation = async () => {
+      authService.clearSession();
+      _refreshSubscribers = [];
+
+      try {
+        // Pass empty tokens as requested to tell the backend to delete the cookie
+        await api.post('/auth/logout', {
+          access_token: '',
+          refresh_token: '',
+        });
+      } catch (logoutError) {
+        console.error('Failed to call logout API during 401 handling:', logoutError);
+      }
+
+      const pathname = window.location.pathname;
+      if (pathname !== '/login') {
+        const redirectUrl = `/login?redirect=${encodeURIComponent(pathname)}`;
+        window.location.href = redirectUrl;
+      }
+    };
+
+    // 1. Short-circuit: if the refresh request itself fails with a 401
+    if (
+      error.response?.status === 401 &&
+      originalRequest.url?.endsWith('/auth/refresh')
+    ) {
+      await handleTokenRevocation();
+      return Promise.reject(error);
+    }
+
+    // 2. Only attempt refresh on 401 for other endpoints, and only once per request
     if (error.response?.status !== 401 || originalRequest._retried) {
       return Promise.reject(error);
     }
@@ -79,9 +110,8 @@ api.interceptors.response.use(
       originalRequest.headers.Authorization = `Bearer ${newData.access_token}`;
       return api(originalRequest);
     } catch (refreshError) {
-      // Refresh failed — clear session; user must log in again
-      authService.clearSession();
-      _refreshSubscribers = [];
+      // Refresh failed (e.g. 401 because the refresh token was revoked)
+      await handleTokenRevocation();
       return Promise.reject(refreshError);
     } finally {
       _isRefreshing = false;
