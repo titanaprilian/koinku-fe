@@ -7,12 +7,12 @@ export async function loginApi(credentials: LoginRequest): Promise<LoginResponse
 }
 
 export async function refreshApi(): Promise<RefreshResponse> {
-  // No body needed — the HttpOnly cookie is sent automatically by the browser
-  const response = await api.post<RefreshResponse>('/auth/refresh');
+  // Send an empty object {} as body to satisfy backend schema validation
+  const response = await api.post<RefreshResponse>('/auth/refresh', {});
   return response.data;
 }
 
 export async function logoutApi(): Promise<void> {
-  // Tells the backend to clear the refresh_token cookie
-  await api.post('/auth/logout');
+  // Send an empty object {} as body to satisfy backend schema validation
+  await api.post('/auth/logout', {});
 }
