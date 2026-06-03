@@ -9,6 +9,15 @@ export interface AuthUser {
   name: string;
 }
 
+export interface UserProfile {
+  id: string;
+  email: string;
+  name: string;
+  roleName: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface LoginResponseData {
   access_token: string;
   user: AuthUser;
@@ -30,3 +39,5 @@ export interface AuthState {
 }
 
 export type RefreshResponse = ApiResponse<LoginResponseData>;
+
+export type MeResponse = ApiResponse<UserProfile>;
