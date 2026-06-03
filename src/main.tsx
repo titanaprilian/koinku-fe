@@ -1,4 +1,4 @@
-import { StrictMode } from 'react';
+import { StrictMode, useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { routeTree } from './routeTree.gen';
 import { authService } from '@/features/auth/auth-service';
 import { refreshApi } from '@/features/auth/api';
+import type { AuthState } from '@/features/auth/types';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,16 +30,23 @@ declare module '@tanstack/react-router' {
 }
 
 /**
- * InnerApp reads fresh auth state on every render.
- * When router.invalidate() is called (e.g. after login), React re-renders
- * this component, which passes the updated auth context to RouterProvider.
- * This ensures beforeLoad guards always see current auth state.
+ * InnerApp subscribes to AuthService so it re-renders whenever auth state
+ * changes (login, logout, silent refresh). On each re-render it passes the
+ * latest auth state as context to RouterProvider, which makes beforeLoad
+ * guards always see current auth state.
  */
 function InnerApp() {
+  const [auth, setAuth] = useState<AuthState>(() => authService.getState());
+
+  useEffect(() => {
+    // Subscribe returns an unsubscribe function — React calls it on unmount
+    return authService.subscribe(setAuth);
+  }, []);
+
   return (
     <RouterProvider
       router={router}
-      context={{ queryClient, auth: authService.getState() }}
+      context={{ queryClient, auth }}
     />
   );
 }
