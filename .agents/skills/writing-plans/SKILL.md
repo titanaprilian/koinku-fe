@@ -40,7 +40,8 @@ This structure informs the task decomposition. Each task should produce self-con
 - "Run it to make sure it fails" - step
 - "Implement the minimal code to make the test pass" - step
 - "Run the tests and make sure they pass" - step
-- "Commit" - step
+
+*Note on Commits*: Do NOT add a commit step after every task. Group commits by logical unit of work (feature-level). Dependency installs can have their own commit, but otherwise combine related tasks into a single cohesive commit at the end of the feature implementation.
 
 ## Plan Document Header
 
@@ -94,13 +95,6 @@ def function(input):
 
 Run: `pytest tests/path/test.py::test_name -v`
 Expected: PASS
-
-- [ ] **Step 5: Commit**
-
-```bash
-git add tests/path/test.py src/path/file.py
-git commit -m "feat: add specific feature"
-```
 ````
 
 ## No Placeholders
@@ -117,7 +111,7 @@ Every step must contain the actual content an engineer needs. These are **plan f
 - Exact file paths always
 - Complete code in every step — if a step changes code, show the code
 - Exact commands with expected output
-- DRY, YAGNI, TDD, frequent commits
+- DRY, YAGNI, TDD, logical feature-level commits
 
 ## Self-Review
 

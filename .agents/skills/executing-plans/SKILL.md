@@ -31,6 +31,8 @@ For each task:
 3. Run verifications as specified
 4. Mark as completed
 
+*Note on Commits*: Do not commit after every individual step or task unless specifically instructed to isolate a dependency installation. Group related tasks into a single cohesive commit at the end of the feature implementation.
+
 ### Step 3: Complete Development
 
 After all tasks complete and verified:
