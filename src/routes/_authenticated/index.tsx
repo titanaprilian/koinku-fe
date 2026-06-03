@@ -29,7 +29,12 @@ function AuthenticatedIndex() {
     } finally {
       authService.clearSession();
       await router.invalidate();
-      router.navigate({ to: '/login' });
+      router.navigate({
+        to: '/login',
+        search: {
+          redirect: undefined,
+        },
+      });
     }
   };
 
