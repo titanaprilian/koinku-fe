@@ -30,3 +30,10 @@ export interface AuthState {
   accessToken: string | null;
 }
 
+export interface RefreshRequest {
+  refresh_token: string;
+}
+
+export type RefreshResponse = ApiResponse<LoginResponseData>;
+
+
