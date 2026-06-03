@@ -28,6 +28,21 @@ declare module '@tanstack/react-router' {
   }
 }
 
+/**
+ * InnerApp reads fresh auth state on every render.
+ * When router.invalidate() is called (e.g. after login), React re-renders
+ * this component, which passes the updated auth context to RouterProvider.
+ * This ensures beforeLoad guards always see current auth state.
+ */
+function InnerApp() {
+  return (
+    <RouterProvider
+      router={router}
+      context={{ queryClient, auth: authService.getState() }}
+    />
+  );
+}
+
 async function bootstrap() {
   // Silently attempt to restore the session from the HttpOnly cookie.
   // The browser sends the refresh_token cookie automatically — no token
@@ -38,10 +53,7 @@ async function bootstrap() {
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider
-          router={router}
-          context={{ queryClient, auth: authService.getState() }}
-        />
+        <InnerApp />
       </QueryClientProvider>
     </StrictMode>,
   );
