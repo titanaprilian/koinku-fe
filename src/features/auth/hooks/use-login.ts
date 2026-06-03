@@ -9,19 +9,21 @@ export function useLogin() {
 
   return useMutation({
     mutationFn: (credentials: LoginRequest) => loginApi(credentials),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       // Persist tokens and user via AuthService
       authService.setSession(data.data);
 
-      // Invalidate the router so context.auth is refreshed on next navigation
-      router.invalidate();
+      // Wait for the router to re-evaluate context with fresh auth state.
+      // This ensures beforeLoad guards see isAuthenticated: true.
+      await router.invalidate();
 
-      // Navigate to home page after successful login
-      router.navigate({ to: '/' });
+      // Navigate to the originally requested page, or home
+      const search = new URLSearchParams(window.location.search);
+      const redirectTo = search.get('redirect') || '/';
+      router.navigate({ to: redirectTo });
     },
     onError: (error) => {
       console.error('[useLogin] login failed:', error);
     },
   });
 }
-
