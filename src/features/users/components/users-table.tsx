@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { EyeIcon } from 'lucide-react';
+import { EyeIcon, PencilIcon } from 'lucide-react';
 import type { User, PaginatedUsersResponse } from '../types';
 
 interface UsersTableProps {
@@ -16,9 +16,10 @@ interface UsersTableProps {
   isLoading: boolean;
   onPageChange: (page: number) => void;
   onDetail: (userId: string) => void;
+  onEdit: (userId: string) => void;
 }
 
-export function UsersTable({ data, isLoading, onPageChange, onDetail }: UsersTableProps) {
+export function UsersTable({ data, isLoading, onPageChange, onDetail, onEdit }: UsersTableProps) {
   if (isLoading) return <div className="py-8 text-center text-muted-foreground">Loading users...</div>;
   if (!data) return null;
 
@@ -46,7 +47,7 @@ export function UsersTable({ data, isLoading, onPageChange, onDetail }: UsersTab
                     {user.isActive ? 'Active' : 'Inactive'}
                   </Badge>
                 </TableCell>
-                <TableCell className="text-right">
+                <TableCell className="text-right space-x-1">
                   <Button
                     variant="ghost"
                     size="sm"
@@ -55,6 +56,15 @@ export function UsersTable({ data, isLoading, onPageChange, onDetail }: UsersTab
                   >
                     <EyeIcon className="h-4 w-4 mr-1" />
                     Detail
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    id={`edit-user-${user.id}`}
+                    onClick={() => onEdit(user.id)}
+                  >
+                    <PencilIcon className="h-4 w-4 mr-1" />
+                    Edit
                   </Button>
                 </TableCell>
               </TableRow>

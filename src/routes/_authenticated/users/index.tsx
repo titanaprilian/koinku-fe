@@ -8,6 +8,7 @@ import { UsersFilters } from '@/features/users/components/users-filters';
 import { UsersTable } from '@/features/users/components/users-table';
 import { CreateUserForm } from '@/features/users/components/create-user-form';
 import { UserDetailDialog } from '@/features/users/components/user-detail-dialog';
+import { EditUserForm } from '@/features/users/components/edit-user-form';
 import type { GetUsersParams } from '@/features/users/types';
 
 export const Route = createFileRoute('/_authenticated/users/')({
@@ -33,6 +34,7 @@ function UsersPage() {
   const navigate = useNavigate({ from: Route.fullPath });
   const [createOpen, setCreateOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [editUserId, setEditUserId] = useState<string | null>(null);
 
   const { data, isLoading } = useUsers(searchParams);
 
@@ -77,6 +79,7 @@ function UsersPage() {
         isLoading={isLoading}
         onPageChange={handlePageChange}
         onDetail={setSelectedUserId}
+        onEdit={setEditUserId}
       />
 
       <CreateUserForm open={createOpen} onOpenChange={setCreateOpen} />
@@ -84,6 +87,12 @@ function UsersPage() {
         userId={selectedUserId}
         onOpenChange={(open) => {
           if (!open) setSelectedUserId(null);
+        }}
+      />
+      <EditUserForm
+        userId={editUserId}
+        onOpenChange={(open) => {
+          if (!open) setEditUserId(null);
         }}
       />
     </div>

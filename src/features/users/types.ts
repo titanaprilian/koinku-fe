@@ -80,3 +80,27 @@ export interface GetUserByIdResponse {
   };
 }
 
+export const EditUserSchema = Type.Object({
+  email: Type.Optional(Type.String({ format: 'email', minLength: 1 })),
+  name: Type.Optional(Type.String({ minLength: 2, maxLength: 50 })),
+  password: Type.Optional(Type.Union([Type.Literal(''), Type.String({ minLength: 8 })])),
+  roleId: Type.Optional(Type.String({ minLength: 1 })),
+  isActive: Type.Optional(Type.Boolean()),
+});
+
+export type EditUserPayload = Static<typeof EditUserSchema>;
+
+export interface EditUserResponse {
+  error: boolean;
+  code: number;
+  message: string;
+  data: {
+    id: string;
+    email: string;
+    name: string;
+    isActive: boolean;
+    roleId: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+}
