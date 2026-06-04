@@ -9,6 +9,7 @@ import { UsersTable } from '@/features/users/components/users-table';
 import { CreateUserForm } from '@/features/users/components/create-user-form';
 import { UserDetailDialog } from '@/features/users/components/user-detail-dialog';
 import { EditUserForm } from '@/features/users/components/edit-user-form';
+import { DeleteUserDialog } from '@/features/users/components/delete-user-dialog';
 import type { GetUsersParams } from '@/features/users/types';
 
 export const Route = createFileRoute('/_authenticated/users/')({
@@ -35,6 +36,7 @@ function UsersPage() {
   const [createOpen, setCreateOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [editUserId, setEditUserId] = useState<string | null>(null);
+  const [deleteUserId, setDeleteUserId] = useState<string | null>(null);
 
   const { data, isLoading } = useUsers(searchParams);
 
@@ -80,6 +82,7 @@ function UsersPage() {
         onPageChange={handlePageChange}
         onDetail={setSelectedUserId}
         onEdit={setEditUserId}
+        onDelete={setDeleteUserId}
       />
 
       <CreateUserForm open={createOpen} onOpenChange={setCreateOpen} />
@@ -93,6 +96,12 @@ function UsersPage() {
         userId={editUserId}
         onOpenChange={(open) => {
           if (!open) setEditUserId(null);
+        }}
+      />
+      <DeleteUserDialog
+        userId={deleteUserId}
+        onOpenChange={(open) => {
+          if (!open) setDeleteUserId(null);
         }}
       />
     </div>
