@@ -23,7 +23,7 @@ export function RolePermissionsTable({ permissions }: RolePermissionsTableProps)
   };
 
   return (
-    <div className="border rounded-md">
+    <div className="w-full overflow-x-auto border rounded-lg">
       <Table>
         <TableHeader>
           <TableRow>
