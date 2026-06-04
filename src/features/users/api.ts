@@ -1,7 +1,18 @@
 import { api } from '@/api/client';
-import type { GetUsersParams, PaginatedUsersResponse } from './types';
+import type {
+  GetUsersParams,
+  PaginatedUsersResponse,
+  CreateUserPayload,
+  CreateUserResponse,
+} from './types';
 
 export async function getUsers(params: GetUsersParams): Promise<PaginatedUsersResponse> {
   const { data } = await api.get<PaginatedUsersResponse>('/users', { params });
   return data;
 }
+
+export async function createUser(payload: CreateUserPayload): Promise<CreateUserResponse> {
+  const { data } = await api.post<CreateUserResponse>('/users/', payload);
+  return data;
+}
+
