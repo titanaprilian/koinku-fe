@@ -10,7 +10,6 @@ export const Route = createFileRoute('/_authenticated/rbac/roles')({
       page: Number(search?.page) || 1,
       limit: Number(search?.limit) || 10,
       search: search.search as string | undefined,
-      feature: search.feature as string | undefined,
     };
   },
   component: RolesPage,
@@ -49,7 +48,6 @@ function RolesPage() {
 
       <RolesFilters
         search={searchParams.search || ''}
-        feature={searchParams.feature || ''}
         onFilterChange={updateFilters}
       />
 

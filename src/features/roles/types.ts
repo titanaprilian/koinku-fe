@@ -34,7 +34,6 @@ export interface GetRolesParams {
   page?: number;
   limit?: number;
   search?: string;
-  feature?: string;
 }
 
 export interface PaginatedRolesResponse {

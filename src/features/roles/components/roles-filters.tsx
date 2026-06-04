@@ -3,37 +3,28 @@ import { Input } from '@/components/ui/input';
 
 interface RolesFiltersProps {
   search: string;
-  feature?: string;
-  onFilterChange: (filters: { search?: string; feature?: string }) => void;
+  onFilterChange: (filters: { search?: string }) => void;
 }
 
-export function RolesFilters({ search, feature, onFilterChange }: RolesFiltersProps) {
+export function RolesFilters({ search, onFilterChange }: RolesFiltersProps) {
   const [localSearch, setLocalSearch] = useState(search);
   const [prevSearch, setPrevSearch] = useState(search);
-  const [localFeature, setLocalFeature] = useState(feature || '');
-  const [prevFeature, setPrevFeature] = useState(feature || '');
 
   if (search !== prevSearch) {
     setPrevSearch(search);
     setLocalSearch(search);
   }
 
-  if (feature !== prevFeature) {
-    setPrevFeature(feature || '');
-    setLocalFeature(feature || '');
-  }
-
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (localSearch !== search || localFeature !== (feature || '')) {
+      if (localSearch !== search) {
         onFilterChange({ 
-          search: localSearch,
-          feature: localFeature || undefined
+          search: localSearch
         });
       }
     }, 500);
     return () => clearTimeout(timer);
-  }, [localSearch, localFeature, search, feature, onFilterChange]);
+  }, [localSearch, search, onFilterChange]);
 
   return (
     <div className="flex gap-4 mb-4">
@@ -41,12 +32,6 @@ export function RolesFilters({ search, feature, onFilterChange }: RolesFiltersPr
         placeholder="Search roles..."
         value={localSearch}
         onChange={(e) => setLocalSearch(e.target.value)}
-        className="max-w-sm"
-      />
-      <Input
-        placeholder="Filter by feature..."
-        value={localFeature}
-        onChange={(e) => setLocalFeature(e.target.value)}
         className="max-w-sm"
       />
     </div>
