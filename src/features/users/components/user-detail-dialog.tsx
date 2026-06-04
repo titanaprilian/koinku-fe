@@ -21,7 +21,7 @@ export function UserDetailDialog({ userId, onOpenChange }: UserDetailDialogProps
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md rounded-sm border shadow-sm bg-white dark:bg-zinc-950">
         <DialogHeader>
           <DialogTitle>User Detail</DialogTitle>
           <DialogDescription>
@@ -61,9 +61,15 @@ export function UserDetailDialog({ userId, onOpenChange }: UserDetailDialogProps
             <div className="flex justify-between">
               <dt className="text-muted-foreground font-medium">Status</dt>
               <dd>
-                <Badge variant={user.isActive ? 'default' : 'secondary'}>
-                  {user.isActive ? 'Active' : 'Inactive'}
-                </Badge>
+                {user.isActive ? (
+                  <Badge className="bg-emerald-500 text-white hover:bg-emerald-600 border-transparent">
+                    Active
+                  </Badge>
+                ) : (
+                  <Badge className="bg-gray-500 text-white hover:bg-gray-600 border-transparent">
+                    Inactive
+                  </Badge>
+                )}
               </dd>
             </div>
             <div className="flex justify-between">

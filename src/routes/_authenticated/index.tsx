@@ -98,7 +98,7 @@ function DashboardIndex() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
+        <Card className="hover:shadow-md hover:border-primary/50 transition-all">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Users</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
@@ -111,7 +111,7 @@ function DashboardIndex() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-md hover:border-primary/50 transition-all">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Active Users</CardTitle>
             <Activity className="h-4 w-4 text-muted-foreground" />
@@ -124,7 +124,7 @@ function DashboardIndex() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-md hover:border-primary/50 transition-all">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Roles</CardTitle>
             <Shield className="h-4 w-4 text-muted-foreground" />
@@ -135,7 +135,7 @@ function DashboardIndex() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-md hover:border-primary/50 transition-all">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Features</CardTitle>
             <Layers className="h-4 w-4 text-muted-foreground" />
@@ -148,35 +148,37 @@ function DashboardIndex() {
       </div>
 
       {stats?.userDistribution && stats.userDistribution.length > 0 && (
-        <Card className="mt-6">
-          <CardHeader>
-            <CardTitle className="text-xl font-semibold">User Distribution</CardTitle>
-            <CardDescription>Breakdown of users by role</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {stats.userDistribution.map((item) => {
-              const percentage = stats.totalUsers > 0
-                ? Math.round((item.count / stats.totalUsers) * 100)
-                : 0;
-              return (
-                <div key={item.roleName} className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-foreground">{item.roleName}</span>
-                    <span className="text-sm font-mono text-muted-foreground">
-                      {item.count} {item.count === 1 ? 'user' : 'users'} ({percentage}%)
-                    </span>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 lg:gap-6 mt-6">
+          <Card className="hover:shadow-md hover:border-primary/50 transition-all">
+            <CardHeader>
+              <CardTitle className="text-xl font-semibold">User Distribution</CardTitle>
+              <CardDescription>Breakdown of users by role</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {stats.userDistribution.map((item) => {
+                const percentage = stats.totalUsers > 0
+                  ? Math.round((item.count / stats.totalUsers) * 100)
+                  : 0;
+                return (
+                  <div key={item.roleName} className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-foreground">{item.roleName}</span>
+                      <span className="text-sm font-mono text-muted-foreground">
+                        {item.count} {item.count === 1 ? 'user' : 'users'} ({percentage}%)
+                      </span>
+                    </div>
+                    <div className="w-full bg-muted rounded-full h-2">
+                      <div
+                        className="bg-primary h-2 rounded-full transition-all duration-500 ease-out"
+                        style={{ width: `${percentage}%` }}
+                      />
+                    </div>
                   </div>
-                  <div className="w-full bg-muted rounded-full h-2">
-                    <div
-                      className="bg-primary h-2 rounded-full transition-all duration-500 ease-out"
-                      style={{ width: `${percentage}%` }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </CardContent>
-        </Card>
+                );
+              })}
+            </CardContent>
+          </Card>
+        </div>
       )}
     </div>
   );

@@ -41,7 +41,7 @@ export function DeleteUserDialog({ userId, onOpenChange }: DeleteUserDialogProps
 
   return (
     <AlertDialog open={userId !== null} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
+      <AlertDialogContent className="rounded-sm border shadow-sm bg-white dark:bg-zinc-950">
         <AlertDialogHeader>
           <AlertDialogTitle>Delete User</AlertDialogTitle>
           <AlertDialogDescription>

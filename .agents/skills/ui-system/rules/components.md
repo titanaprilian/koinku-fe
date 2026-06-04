@@ -27,6 +27,12 @@ import { Button } from "@/components/ui/button"
 // Destructive
 <Button variant="destructive">Delete Account</Button>
 
+// Action buttons (Detail, Edit, Delete) - Subtle/Ghost style
+// Icon-only or minimal text with soft hover states to reduce visual clutter
+<Button variant="ghost" size="icon" className="hover:bg-muted text-muted-foreground">
+  <Pencil className="h-4 w-4" />
+</Button>
+
 // Ghost — for icon buttons, nav items
 <Button variant="ghost" size="icon"><Heart /></Button>
 
@@ -54,11 +60,16 @@ import { Button } from "@/components/ui/button"
 
 ### Cards
 
+**Styling Rules (Interactive & Responsive):**
+
+- **Hover Effects:** Cards should feel interactive. Use `hover:shadow-md hover:border-primary/50 transition-all` when the card is clickable or represents a discrete item.
+- **Responsive Layout:** Never let cards stretch to take full width on large screens (e.g. dashboard widgets). Always use a responsive grid (`grid grid-cols-1 md:grid-cols-2 gap-4` or similar) so they take full width on mobile but sit side-by-side on desktop.
+
 ```tsx
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
-// Standard content card
-<Card>
+// Interactive Card (Clickable or Widget)
+<Card className="hover:shadow-md hover:border-primary/50 transition-all cursor-pointer">
   <CardHeader>
     <CardTitle>Title</CardTitle>
     <CardDescription>Supporting description text</CardDescription>
@@ -73,7 +84,15 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 </Card>
 
 // Flat card (no shadow, subtle border — for dense lists)
-<Card className="shadow-none border-border/60">
+<Card className="shadow-none border-border/60 hover:bg-muted/50 transition-colors">
+  {/* content */}
+</Card>
+
+// Responsive Card Layout Container
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+  <Card>...</Card>
+  <Card>...</Card>
+</div>
 ```
 
 **When to use Card:**
@@ -84,6 +103,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 
 **Anti-patterns:**
 
+- ❌ Don't let cards stretch unbounded on large screens — wrap lists of cards in a `grid-cols-1 md:grid-cols-2` container
 - ❌ Don't nest `<Card>` inside `<Card>` — use `bg-muted` for inner sections instead
 - ❌ Don't use Card for single-line list items — use plain `div` with `border-b`
 
@@ -164,6 +184,13 @@ import {
 - `Dialog` — confirmations, short forms, focused tasks (max-w-md or max-w-lg)
 - `Sheet` — side panels, filters, detail views, anything needing more vertical space
 
+**Styling Rules (Minimalist & Sleek):**
+
+- Sharp borders (`rounded-none` or `rounded-sm`) instead of large rounded corners
+- Subtle shadows (`shadow-sm`)
+- Clean white background (`bg-white` or `bg-background`)
+- Simple dark overlay (default shadcn, avoid blurred backdrop)
+
 ---
 
 ### Navigation
@@ -196,10 +223,11 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Progress } from "@/components/ui/progress"
 
-// Status badge
-<Badge variant="secondary">Active</Badge>
-<Badge variant="destructive">Overdue</Badge>
-<Badge variant="outline">Draft</Badge>
+// Status badge (Vibrant & Solid preference)
+// Bright, eye-catching solid colors with white text for high contrast
+<Badge className="bg-emerald-500 text-white hover:bg-emerald-600 border-transparent">Active</Badge>
+<Badge className="bg-rose-500 text-white hover:bg-rose-600 border-transparent">Overdue</Badge>
+<Badge className="bg-blue-500 text-white hover:bg-blue-600 border-transparent">New</Badge>
 
 // Inline alert (form-level feedback, not toast)
 <Alert variant="destructive">
@@ -275,3 +303,78 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 - `Select` — form inputs, settings choices, filters
 - `DropdownMenu` — action menus, "more options" (⋯), right-click context
+
+---
+
+### Tables
+
+**Styling Rules (Clean & Spaced):**
+
+- Generous cell padding (e.g., `px-4 py-4` or `p-5`)
+- Invisible vertical borders (do not use vertical dividers between columns)
+- Subtle horizontal dividers (`border-b border-border/50`)
+- Soft row hover states (`hover:bg-muted/50`) to improve readability
+
+```tsx
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+
+<Table>
+  <TableHeader>
+    <TableRow className="border-b border-border/50 hover:bg-transparent">
+      <TableHead className="px-4 py-3 text-muted-foreground font-medium">Name</TableHead>
+      <TableHead className="px-4 py-3 text-muted-foreground font-medium">Status</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow className="border-b border-border/50 hover:bg-muted/50 transition-colors">
+      <TableCell className="px-4 py-4">Alice</TableCell>
+      <TableCell className="px-4 py-4">
+        <Badge className="bg-emerald-500 text-white hover:bg-emerald-600 border-transparent">Active</Badge>
+      </TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+```
+
+---
+
+### Pagination
+
+**Styling Rules (Soft Numbered Pills):**
+
+- Rounded pill buttons for numbers (`rounded-full`)
+- Distinct colored background for the active page (e.g., `bg-primary text-primary-foreground`)
+- Soft hover states for inactive pages (`hover:bg-muted`)
+- Avoid harsh borders on pagination items
+
+```tsx
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
+
+<Pagination>
+  <PaginationContent className="gap-1">
+    <PaginationItem>
+      <PaginationPrevious href="#" className="rounded-full px-4" />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#" isActive className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90">
+        1
+      </PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#" className="rounded-full hover:bg-muted">
+        2
+      </PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext href="#" className="rounded-full px-4" />
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
+```

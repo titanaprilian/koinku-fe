@@ -21,7 +21,7 @@ export function RoleDetailDialog({ roleId, onOpenChange }: RoleDetailDialogProps
 
   return (
     <Dialog open={roleId !== null} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl sm:max-w-3xl max-h-[90vh] overflow-y-auto p-6 sm:p-8">
+      <DialogContent className="max-w-3xl sm:max-w-3xl max-h-[90vh] overflow-y-auto p-6 sm:p-8 rounded-sm border shadow-sm bg-white dark:bg-zinc-950">
         <DialogHeader className="mb-4">
           <DialogTitle className="text-xl font-semibold">Role Details</DialogTitle>
           <DialogDescription>
