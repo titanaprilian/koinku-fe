@@ -29,53 +29,60 @@ export function UsersTable({ data, isLoading, onPageChange, onDetail, onEdit, on
       <div className="border rounded-md">
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+            <TableRow className="border-b border-border/50 hover:bg-transparent">
+              <TableHead className="px-4 py-3 text-muted-foreground font-medium">Name</TableHead>
+              <TableHead className="px-4 py-3 text-muted-foreground font-medium">Email</TableHead>
+              <TableHead className="px-4 py-3 text-muted-foreground font-medium">Role</TableHead>
+              <TableHead className="px-4 py-3 text-muted-foreground font-medium">Status</TableHead>
+              <TableHead className="px-4 py-3 text-right text-muted-foreground font-medium">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.data.map((user: User) => (
-              <TableRow key={user.id}>
-                <TableCell className="font-medium">{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.roleName}</TableCell>
-                <TableCell>
-                  <Badge variant={user.isActive ? 'default' : 'secondary'}>
-                    {user.isActive ? 'Active' : 'Inactive'}
-                  </Badge>
+              <TableRow key={user.id} className="border-b border-border/50 hover:bg-muted/50 transition-colors">
+                <TableCell className="px-4 py-4 font-medium">{user.name}</TableCell>
+                <TableCell className="px-4 py-4">{user.email}</TableCell>
+                <TableCell className="px-4 py-4">{user.roleName}</TableCell>
+                <TableCell className="px-4 py-4">
+                  {user.isActive ? (
+                    <Badge className="bg-emerald-500 text-white hover:bg-emerald-600 border-transparent">Active</Badge>
+                  ) : (
+                    <Badge className="bg-gray-500 text-white hover:bg-gray-600 border-transparent">Inactive</Badge>
+                  )}
                 </TableCell>
-                <TableCell className="text-right space-x-1">
+                <TableCell className="text-right space-x-1 px-4 py-4">
                   <Button
                     variant="ghost"
-                    size="sm"
+                    size="icon"
                     id={`detail-user-${user.id}`}
+                    className="hover:bg-muted text-muted-foreground"
                     onClick={() => onDetail(user.id)}
+                    title="Detail"
                   >
-                    <EyeIcon className="h-4 w-4 mr-1" />
-                    Detail
+                    <EyeIcon className="h-4 w-4" />
+                    <span className="sr-only">Detail</span>
                   </Button>
                   <Button
                     variant="ghost"
-                    size="sm"
+                    size="icon"
                     id={`edit-user-${user.id}`}
+                    className="hover:bg-muted text-muted-foreground"
                     onClick={() => onEdit(user.id)}
+                    title="Edit"
                   >
-                    <PencilIcon className="h-4 w-4 mr-1" />
-                    Edit
+                    <PencilIcon className="h-4 w-4" />
+                    <span className="sr-only">Edit</span>
                   </Button>
                   <Button
                     variant="ghost"
-                    size="sm"
+                    size="icon"
                     id={`delete-user-${user.id}`}
+                    className="hover:bg-destructive/10 text-muted-foreground hover:text-destructive"
                     onClick={() => onDelete?.(user.id)}
-                    className="text-destructive hover:text-destructive"
+                    title="Delete"
                   >
-                    <Trash2Icon className="h-4 w-4 mr-1" />
-                    Delete
+                    <Trash2Icon className="h-4 w-4" />
+                    <span className="sr-only">Delete</span>
                   </Button>
                 </TableCell>
               </TableRow>
@@ -92,21 +99,21 @@ export function UsersTable({ data, isLoading, onPageChange, onDetail, onEdit, on
       </div>
       
       {data.data.length > 0 && (
-        <div className="flex items-center justify-end space-x-2">
+        <div className="flex items-center justify-end space-x-2 mt-4">
           <Button
-            variant="outline"
-            size="sm"
+            variant="ghost"
+            className="rounded-full hover:bg-muted px-4"
             onClick={() => onPageChange(data.pagination.page - 1)}
             disabled={data.pagination.page <= 1}
           >
             Previous
           </Button>
-          <div className="text-sm text-muted-foreground font-medium px-2">
-            Page {data.pagination.page} of {data.pagination.totalPages}
+          <div className="flex items-center justify-center rounded-full bg-primary text-primary-foreground h-9 px-4 text-sm font-medium">
+            {data.pagination.page}
           </div>
           <Button
-            variant="outline"
-            size="sm"
+            variant="ghost"
+            className="rounded-full hover:bg-muted px-4"
             onClick={() => onPageChange(data.pagination.page + 1)}
             disabled={data.pagination.page >= data.pagination.totalPages}
           >

@@ -72,7 +72,7 @@ export function CreateUserForm({ open, onOpenChange }: CreateUserFormProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md rounded-sm border shadow-sm bg-white dark:bg-zinc-950">
         <DialogHeader>
           <DialogTitle>Create User</DialogTitle>
           <DialogDescription>

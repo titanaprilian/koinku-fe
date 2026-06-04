@@ -16,9 +16,9 @@ interface RolePermissionsTableProps {
 export function RolePermissionsTable({ permissions }: RolePermissionsTableProps) {
   const renderIcon = (value: boolean) => {
     return value ? (
-      <Check className="h-5 w-5 text-green-600 mx-auto" />
+      <Check className="h-5 w-5 text-emerald-600 dark:text-emerald-500 mx-auto" />
     ) : (
-      <X className="h-5 w-5 text-muted-foreground mx-auto" />
+      <X className="h-5 w-5 text-muted-foreground/60 mx-auto" />
     );
   };
 
@@ -26,13 +26,13 @@ export function RolePermissionsTable({ permissions }: RolePermissionsTableProps)
     <div className="w-full overflow-x-auto border rounded-lg">
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead>Feature</TableHead>
-            <TableHead className="text-center">Create</TableHead>
-            <TableHead className="text-center">Read</TableHead>
-            <TableHead className="text-center">Update</TableHead>
-            <TableHead className="text-center">Delete</TableHead>
-            <TableHead className="text-center">Print</TableHead>
+          <TableRow className="border-b border-border/50 hover:bg-transparent">
+            <TableHead className="px-4 py-3 text-left text-muted-foreground font-medium">Feature</TableHead>
+            <TableHead className="px-4 py-3 text-center text-muted-foreground font-medium">Create</TableHead>
+            <TableHead className="px-4 py-3 text-center text-muted-foreground font-medium">Read</TableHead>
+            <TableHead className="px-4 py-3 text-center text-muted-foreground font-medium">Update</TableHead>
+            <TableHead className="px-4 py-3 text-center text-muted-foreground font-medium">Delete</TableHead>
+            <TableHead className="px-4 py-3 text-center text-muted-foreground font-medium">Print</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -44,13 +44,13 @@ export function RolePermissionsTable({ permissions }: RolePermissionsTableProps)
             </TableRow>
           ) : (
             permissions.map((perm) => (
-              <TableRow key={perm.featureId}>
-                <TableCell className="font-medium">{perm.feature.name}</TableCell>
-                <TableCell>{renderIcon(perm.canCreate)}</TableCell>
-                <TableCell>{renderIcon(perm.canRead)}</TableCell>
-                <TableCell>{renderIcon(perm.canUpdate)}</TableCell>
-                <TableCell>{renderIcon(perm.canDelete)}</TableCell>
-                <TableCell>{renderIcon(perm.canPrint)}</TableCell>
+              <TableRow key={perm.featureId} className="border-b border-border/50 hover:bg-muted/50 transition-colors">
+                <TableCell className="px-4 py-3 font-medium text-left">{perm.feature.name}</TableCell>
+                <TableCell className="px-4 py-3 text-center">{renderIcon(perm.canCreate)}</TableCell>
+                <TableCell className="px-4 py-3 text-center">{renderIcon(perm.canRead)}</TableCell>
+                <TableCell className="px-4 py-3 text-center">{renderIcon(perm.canUpdate)}</TableCell>
+                <TableCell className="px-4 py-3 text-center">{renderIcon(perm.canDelete)}</TableCell>
+                <TableCell className="px-4 py-3 text-center">{renderIcon(perm.canPrint)}</TableCell>
               </TableRow>
             ))
           )}

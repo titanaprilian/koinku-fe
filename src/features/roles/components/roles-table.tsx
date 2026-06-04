@@ -26,27 +26,29 @@ export function RolesTable({ data, isLoading, onPageChange, onView }: RolesTable
       <div className="border rounded-md">
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Created At</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+            <TableRow className="border-b border-border/50 hover:bg-transparent">
+              <TableHead className="px-4 py-3 text-muted-foreground font-medium">Name</TableHead>
+              <TableHead className="px-4 py-3 text-muted-foreground font-medium">Description</TableHead>
+              <TableHead className="px-4 py-3 text-muted-foreground font-medium">Created At</TableHead>
+              <TableHead className="px-4 py-3 text-right text-muted-foreground font-medium">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.data.map((role: Role) => (
-              <TableRow key={role.id}>
-                <TableCell className="font-medium">{role.name}</TableCell>
-                <TableCell>{role.description}</TableCell>
-                <TableCell>{new Date(role.createdAt).toLocaleDateString()}</TableCell>
-                <TableCell className="text-right">
+              <TableRow key={role.id} className="border-b border-border/50 hover:bg-muted/50 transition-colors">
+                <TableCell className="px-4 py-4 font-medium">{role.name}</TableCell>
+                <TableCell className="px-4 py-4 text-muted-foreground">{role.description}</TableCell>
+                <TableCell className="px-4 py-4 text-muted-foreground">{new Date(role.createdAt).toLocaleDateString()}</TableCell>
+                <TableCell className="text-right space-x-1 px-4 py-4">
                   <Button
                     variant="ghost"
-                    size="sm"
+                    size="icon"
+                    className="hover:bg-muted text-muted-foreground"
                     onClick={() => onView(role.id)}
+                    title="Detail"
                   >
-                    <EyeIcon className="h-4 w-4 mr-2" />
-                    View
+                    <EyeIcon className="h-4 w-4" />
+                    <span className="sr-only">Detail</span>
                   </Button>
                 </TableCell>
               </TableRow>
@@ -63,21 +65,21 @@ export function RolesTable({ data, isLoading, onPageChange, onView }: RolesTable
       </div>
       
       {data.data.length > 0 && (
-        <div className="flex items-center justify-end space-x-2">
+        <div className="flex items-center justify-end space-x-2 mt-4">
           <Button
-            variant="outline"
-            size="sm"
+            variant="ghost"
+            className="rounded-full hover:bg-muted px-4"
             onClick={() => onPageChange(data.pagination.page - 1)}
             disabled={data.pagination.page <= 1}
           >
             Previous
           </Button>
-          <div className="text-sm text-muted-foreground font-medium px-2">
-            Page {data.pagination.page} of {data.pagination.totalPages}
+          <div className="flex items-center justify-center rounded-full bg-primary text-primary-foreground h-9 px-4 text-sm font-medium">
+            {data.pagination.page}
           </div>
           <Button
-            variant="outline"
-            size="sm"
+            variant="ghost"
+            className="rounded-full hover:bg-muted px-4"
             onClick={() => onPageChange(data.pagination.page + 1)}
             disabled={data.pagination.page >= data.pagination.totalPages}
           >
@@ -88,3 +90,4 @@ export function RolesTable({ data, isLoading, onPageChange, onView }: RolesTable
     </div>
   );
 }
+

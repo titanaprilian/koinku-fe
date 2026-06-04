@@ -103,7 +103,7 @@ export function EditUserForm({ userId, onOpenChange }: EditUserFormProps) {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md rounded-sm border shadow-sm bg-white dark:bg-zinc-950">
         <DialogHeader>
           <DialogTitle>Edit User</DialogTitle>
           <DialogDescription>
