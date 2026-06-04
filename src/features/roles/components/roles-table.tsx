@@ -6,18 +6,18 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Link } from '@tanstack/react-router';
 import { EyeIcon } from 'lucide-react';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import type { Role, PaginatedRolesResponse } from '../types';
 
 interface RolesTableProps {
   data?: PaginatedRolesResponse;
   isLoading: boolean;
   onPageChange: (page: number) => void;
+  onView: (id: string) => void;
 }
 
-export function RolesTable({ data, isLoading, onPageChange }: RolesTableProps) {
+export function RolesTable({ data, isLoading, onPageChange, onView }: RolesTableProps) {
   if (isLoading) return <div className="py-8 text-center text-muted-foreground">Loading roles...</div>;
   if (!data) return null;
 
@@ -40,14 +40,14 @@ export function RolesTable({ data, isLoading, onPageChange }: RolesTableProps) {
                 <TableCell>{role.description}</TableCell>
                 <TableCell>{new Date(role.createdAt).toLocaleDateString()}</TableCell>
                 <TableCell className="text-right">
-                  <Link
-                    to="/rbac/roles/$roleId"
-                    params={{ roleId: role.id }}
-                    className={buttonVariants({ variant: 'ghost', size: 'sm' })}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => onView(role.id)}
                   >
                     <EyeIcon className="h-4 w-4 mr-2" />
                     View
-                  </Link>
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
