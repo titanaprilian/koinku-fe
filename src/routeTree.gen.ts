@@ -16,6 +16,7 @@ import { Route as AuthenticatedUsersRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedRbacRouteImport } from './routes/_authenticated/rbac'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
+import { Route as AuthenticatedRbacRolesRouteImport } from './routes/_authenticated/rbac/roles'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -51,20 +52,27 @@ const AuthenticatedUsersIndexRoute = AuthenticatedUsersIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedUsersRoute,
 } as any)
+const AuthenticatedRbacRolesRoute = AuthenticatedRbacRolesRouteImport.update({
+  id: '/roles',
+  path: '/roles',
+  getParentRoute: () => AuthenticatedRbacRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
   '/login': typeof LoginRoute
   '/profile': typeof AuthenticatedProfileRoute
-  '/rbac': typeof AuthenticatedRbacRoute
+  '/rbac': typeof AuthenticatedRbacRouteWithChildren
   '/users': typeof AuthenticatedUsersRouteWithChildren
+  '/rbac/roles': typeof AuthenticatedRbacRolesRoute
   '/users/': typeof AuthenticatedUsersIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/profile': typeof AuthenticatedProfileRoute
-  '/rbac': typeof AuthenticatedRbacRoute
+  '/rbac': typeof AuthenticatedRbacRouteWithChildren
   '/': typeof AuthenticatedIndexRoute
+  '/rbac/roles': typeof AuthenticatedRbacRolesRoute
   '/users': typeof AuthenticatedUsersIndexRoute
 }
 export interface FileRoutesById {
@@ -72,16 +80,24 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
-  '/_authenticated/rbac': typeof AuthenticatedRbacRoute
+  '/_authenticated/rbac': typeof AuthenticatedRbacRouteWithChildren
   '/_authenticated/users': typeof AuthenticatedUsersRouteWithChildren
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/rbac/roles': typeof AuthenticatedRbacRolesRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/profile' | '/rbac' | '/users' | '/users/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/profile'
+    | '/rbac'
+    | '/users'
+    | '/rbac/roles'
+    | '/users/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/profile' | '/rbac' | '/' | '/users'
+  to: '/login' | '/profile' | '/rbac' | '/' | '/rbac/roles' | '/users'
   id:
     | '__root__'
     | '/_authenticated'
@@ -90,6 +106,7 @@ export interface FileRouteTypes {
     | '/_authenticated/rbac'
     | '/_authenticated/users'
     | '/_authenticated/'
+    | '/_authenticated/rbac/roles'
     | '/_authenticated/users/'
   fileRoutesById: FileRoutesById
 }
@@ -149,8 +166,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUsersIndexRouteImport
       parentRoute: typeof AuthenticatedUsersRoute
     }
+    '/_authenticated/rbac/roles': {
+      id: '/_authenticated/rbac/roles'
+      path: '/roles'
+      fullPath: '/rbac/roles'
+      preLoaderRoute: typeof AuthenticatedRbacRolesRouteImport
+      parentRoute: typeof AuthenticatedRbacRoute
+    }
   }
 }
+
+interface AuthenticatedRbacRouteChildren {
+  AuthenticatedRbacRolesRoute: typeof AuthenticatedRbacRolesRoute
+}
+
+const AuthenticatedRbacRouteChildren: AuthenticatedRbacRouteChildren = {
+  AuthenticatedRbacRolesRoute: AuthenticatedRbacRolesRoute,
+}
+
+const AuthenticatedRbacRouteWithChildren =
+  AuthenticatedRbacRoute._addFileChildren(AuthenticatedRbacRouteChildren)
 
 interface AuthenticatedUsersRouteChildren {
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
@@ -165,14 +200,14 @@ const AuthenticatedUsersRouteWithChildren =
 
 interface AuthenticatedRouteChildren {
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
-  AuthenticatedRbacRoute: typeof AuthenticatedRbacRoute
+  AuthenticatedRbacRoute: typeof AuthenticatedRbacRouteWithChildren
   AuthenticatedUsersRoute: typeof AuthenticatedUsersRouteWithChildren
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
-  AuthenticatedRbacRoute: AuthenticatedRbacRoute,
+  AuthenticatedRbacRoute: AuthenticatedRbacRouteWithChildren,
   AuthenticatedUsersRoute: AuthenticatedUsersRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
