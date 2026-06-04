@@ -17,6 +17,7 @@ import { Route as AuthenticatedRbacRouteImport } from './routes/_authenticated/r
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
 import { Route as AuthenticatedRbacRolesRouteImport } from './routes/_authenticated/rbac/roles'
+import { Route as AuthenticatedRbacRolesIndexRouteImport } from './routes/_authenticated/rbac/roles.index'
 import { Route as AuthenticatedRbacRolesRoleIdRouteImport } from './routes/_authenticated/rbac/roles.$roleId'
 
 const LoginRoute = LoginRouteImport.update({
@@ -58,6 +59,12 @@ const AuthenticatedRbacRolesRoute = AuthenticatedRbacRolesRouteImport.update({
   path: '/roles',
   getParentRoute: () => AuthenticatedRbacRoute,
 } as any)
+const AuthenticatedRbacRolesIndexRoute =
+  AuthenticatedRbacRolesIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedRbacRolesRoute,
+  } as any)
 const AuthenticatedRbacRolesRoleIdRoute =
   AuthenticatedRbacRolesRoleIdRouteImport.update({
     id: '/$roleId',
@@ -74,15 +81,16 @@ export interface FileRoutesByFullPath {
   '/rbac/roles': typeof AuthenticatedRbacRolesRouteWithChildren
   '/users/': typeof AuthenticatedUsersIndexRoute
   '/rbac/roles/$roleId': typeof AuthenticatedRbacRolesRoleIdRoute
+  '/rbac/roles/': typeof AuthenticatedRbacRolesIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/rbac': typeof AuthenticatedRbacRouteWithChildren
   '/': typeof AuthenticatedIndexRoute
-  '/rbac/roles': typeof AuthenticatedRbacRolesRouteWithChildren
   '/users': typeof AuthenticatedUsersIndexRoute
   '/rbac/roles/$roleId': typeof AuthenticatedRbacRolesRoleIdRoute
+  '/rbac/roles': typeof AuthenticatedRbacRolesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/_authenticated/rbac/roles': typeof AuthenticatedRbacRolesRouteWithChildren
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
   '/_authenticated/rbac/roles/$roleId': typeof AuthenticatedRbacRolesRoleIdRoute
+  '/_authenticated/rbac/roles/': typeof AuthenticatedRbacRolesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -107,15 +116,16 @@ export interface FileRouteTypes {
     | '/rbac/roles'
     | '/users/'
     | '/rbac/roles/$roleId'
+    | '/rbac/roles/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
     | '/profile'
     | '/rbac'
     | '/'
-    | '/rbac/roles'
     | '/users'
     | '/rbac/roles/$roleId'
+    | '/rbac/roles'
   id:
     | '__root__'
     | '/_authenticated'
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/_authenticated/rbac/roles'
     | '/_authenticated/users/'
     | '/_authenticated/rbac/roles/$roleId'
+    | '/_authenticated/rbac/roles/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -192,6 +203,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRbacRolesRouteImport
       parentRoute: typeof AuthenticatedRbacRoute
     }
+    '/_authenticated/rbac/roles/': {
+      id: '/_authenticated/rbac/roles/'
+      path: '/'
+      fullPath: '/rbac/roles/'
+      preLoaderRoute: typeof AuthenticatedRbacRolesIndexRouteImport
+      parentRoute: typeof AuthenticatedRbacRolesRoute
+    }
     '/_authenticated/rbac/roles/$roleId': {
       id: '/_authenticated/rbac/roles/$roleId'
       path: '/$roleId'
@@ -204,11 +222,13 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRbacRolesRouteChildren {
   AuthenticatedRbacRolesRoleIdRoute: typeof AuthenticatedRbacRolesRoleIdRoute
+  AuthenticatedRbacRolesIndexRoute: typeof AuthenticatedRbacRolesIndexRoute
 }
 
 const AuthenticatedRbacRolesRouteChildren: AuthenticatedRbacRolesRouteChildren =
   {
     AuthenticatedRbacRolesRoleIdRoute: AuthenticatedRbacRolesRoleIdRoute,
+    AuthenticatedRbacRolesIndexRoute: AuthenticatedRbacRolesIndexRoute,
   }
 
 const AuthenticatedRbacRolesRouteWithChildren =
