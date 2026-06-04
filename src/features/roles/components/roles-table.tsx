@@ -6,7 +6,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
+import { Link } from '@tanstack/react-router';
+import { EyeIcon } from 'lucide-react';
+import { Button, buttonVariants } from '@/components/ui/button';
 import type { Role, PaginatedRolesResponse } from '../types';
 
 interface RolesTableProps {
@@ -28,6 +30,7 @@ export function RolesTable({ data, isLoading, onPageChange }: RolesTableProps) {
               <TableHead>Name</TableHead>
               <TableHead>Description</TableHead>
               <TableHead>Created At</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -36,11 +39,21 @@ export function RolesTable({ data, isLoading, onPageChange }: RolesTableProps) {
                 <TableCell className="font-medium">{role.name}</TableCell>
                 <TableCell>{role.description}</TableCell>
                 <TableCell>{new Date(role.createdAt).toLocaleDateString()}</TableCell>
+                <TableCell className="text-right">
+                  <Link
+                    to="/rbac/roles/$roleId"
+                    params={{ roleId: role.id }}
+                    className={buttonVariants({ variant: 'ghost', size: 'sm' })}
+                  >
+                    <EyeIcon className="h-4 w-4 mr-2" />
+                    View
+                  </Link>
+                </TableCell>
               </TableRow>
             ))}
             {data.data.length === 0 && (
               <TableRow>
-                <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
+                <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
                   No roles found.
                 </TableCell>
               </TableRow>

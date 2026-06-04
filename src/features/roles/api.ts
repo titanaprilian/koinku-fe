@@ -4,6 +4,7 @@ import type {
   PaginatedRoleOptionsResponse,
   GetRolesParams,
   PaginatedRolesResponse,
+  GetRoleByIdResponse,
 } from './types';
 
 export async function getRoleOptions(params?: GetRoleOptionsParams): Promise<PaginatedRoleOptionsResponse> {
@@ -13,5 +14,10 @@ export async function getRoleOptions(params?: GetRoleOptionsParams): Promise<Pag
 
 export async function getRoles(params: GetRolesParams): Promise<PaginatedRolesResponse> {
   const { data } = await api.get<PaginatedRolesResponse>('/rbac/roles', { params });
+  return data;
+}
+
+export async function getRoleById(id: string): Promise<GetRoleByIdResponse> {
+  const { data } = await api.get<GetRoleByIdResponse>(`/rbac/roles/${id}`);
   return data;
 }
