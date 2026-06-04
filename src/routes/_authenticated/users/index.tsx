@@ -7,6 +7,7 @@ import { useUsers } from '@/features/users/hooks/use-users';
 import { UsersFilters } from '@/features/users/components/users-filters';
 import { UsersTable } from '@/features/users/components/users-table';
 import { CreateUserForm } from '@/features/users/components/create-user-form';
+import { UserDetailDialog } from '@/features/users/components/user-detail-dialog';
 import type { GetUsersParams } from '@/features/users/types';
 
 export const Route = createFileRoute('/_authenticated/users/')({
@@ -31,6 +32,7 @@ function UsersPage() {
   const searchParams = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
   const [createOpen, setCreateOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
 
   const { data, isLoading } = useUsers(searchParams);
 
@@ -74,9 +76,16 @@ function UsersPage() {
         data={data}
         isLoading={isLoading}
         onPageChange={handlePageChange}
+        onDetail={setSelectedUserId}
       />
 
       <CreateUserForm open={createOpen} onOpenChange={setCreateOpen} />
+      <UserDetailDialog
+        userId={selectedUserId}
+        onOpenChange={(open) => {
+          if (!open) setSelectedUserId(null);
+        }}
+      />
     </div>
   );
 }

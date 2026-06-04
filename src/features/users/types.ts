@@ -63,3 +63,20 @@ export interface PaginatedUsersResponse {
     totalPages: number;
   };
 }
+
+export interface GetUserByIdResponse {
+  error: boolean;
+  code: number;
+  message: string;
+  data: {
+    id: string;
+    email: string;
+    name: string;
+    isActive: boolean;
+    roleId: string;
+    roleName: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+}
+
