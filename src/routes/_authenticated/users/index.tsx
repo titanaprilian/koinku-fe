@@ -1,7 +1,12 @@
+import { useState } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { PlusIcon } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
 import { useUsers } from '@/features/users/hooks/use-users';
 import { UsersFilters } from '@/features/users/components/users-filters';
 import { UsersTable } from '@/features/users/components/users-table';
+import { CreateUserForm } from '@/features/users/components/create-user-form';
 import type { GetUsersParams } from '@/features/users/types';
 
 export const Route = createFileRoute('/_authenticated/users/')({
@@ -25,8 +30,8 @@ export const Route = createFileRoute('/_authenticated/users/')({
 function UsersPage() {
   const searchParams = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
-  
-  // Ensure we are fetching the right data for the current URL params
+  const [createOpen, setCreateOpen] = useState(false);
+
   const { data, isLoading } = useUsers(searchParams);
 
   const updateFilters = (newFilters: Partial<GetUsersParams>) => {
@@ -34,7 +39,7 @@ function UsersPage() {
       search: (prev) => ({
         ...prev,
         ...newFilters,
-        page: 1, // Reset page on filter change
+        page: 1,
       }),
     });
   };
@@ -52,20 +57,27 @@ function UsersPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold tracking-tight">Users</h1>
+        <Button id="add-user-button" onClick={() => setCreateOpen(true)}>
+          <PlusIcon className="mr-2 h-4 w-4" />
+          Add User
+        </Button>
       </div>
-      
+
       <UsersFilters
         search={searchParams.search || ''}
         roleId={searchParams.roleId || ''}
         isActive={searchParams.isActive}
         onFilterChange={updateFilters}
       />
-      
+
       <UsersTable
         data={data}
         isLoading={isLoading}
         onPageChange={handlePageChange}
       />
+
+      <CreateUserForm open={createOpen} onOpenChange={setCreateOpen} />
     </div>
   );
 }
+
