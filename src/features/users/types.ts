@@ -104,3 +104,19 @@ export interface EditUserResponse {
     updatedAt: string;
   };
 }
+
+export interface DeleteUserResponse {
+  error: boolean;
+  code: number;
+  message: string;
+  data: {
+    id: string;
+    email: string;
+    name: string;
+    isActive: boolean;
+    roleId: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+}
+

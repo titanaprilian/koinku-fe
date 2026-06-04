@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { EyeIcon, PencilIcon } from 'lucide-react';
+import { EyeIcon, PencilIcon, Trash2Icon } from 'lucide-react';
 import type { User, PaginatedUsersResponse } from '../types';
 
 interface UsersTableProps {
@@ -17,9 +17,10 @@ interface UsersTableProps {
   onPageChange: (page: number) => void;
   onDetail: (userId: string) => void;
   onEdit: (userId: string) => void;
+  onDelete?: (userId: string) => void;
 }
 
-export function UsersTable({ data, isLoading, onPageChange, onDetail, onEdit }: UsersTableProps) {
+export function UsersTable({ data, isLoading, onPageChange, onDetail, onEdit, onDelete }: UsersTableProps) {
   if (isLoading) return <div className="py-8 text-center text-muted-foreground">Loading users...</div>;
   if (!data) return null;
 
@@ -65,6 +66,16 @@ export function UsersTable({ data, isLoading, onPageChange, onDetail, onEdit }: 
                   >
                     <PencilIcon className="h-4 w-4 mr-1" />
                     Edit
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    id={`delete-user-${user.id}`}
+                    onClick={() => onDelete?.(user.id)}
+                    className="text-destructive hover:text-destructive"
+                  >
+                    <Trash2Icon className="h-4 w-4 mr-1" />
+                    Delete
                   </Button>
                 </TableCell>
               </TableRow>

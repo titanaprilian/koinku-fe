@@ -7,6 +7,7 @@ import type {
   GetUserByIdResponse,
   EditUserPayload,
   EditUserResponse,
+  DeleteUserResponse,
 } from './types';
 
 export async function getUsers(params: GetUsersParams): Promise<PaginatedUsersResponse> {
@@ -28,3 +29,9 @@ export async function patchUser(id: string, payload: EditUserPayload): Promise<E
   const { data } = await api.patch<EditUserResponse>(`/users/${id}`, payload);
   return data;
 }
+
+export async function deleteUser(id: string): Promise<DeleteUserResponse> {
+  const { data } = await api.delete<DeleteUserResponse>(`/users/${id}`);
+  return data;
+}
+
