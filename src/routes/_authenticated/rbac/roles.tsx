@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useRoles } from '@/features/roles/hooks/use-roles';
 import { RolesFilters } from '@/features/roles/components/roles-filters';
 import { RolesTable } from '@/features/roles/components/roles-table';
 import type { GetRolesParams } from '@/features/roles/types';
+import { RoleDetailDialog } from '@/features/roles/components/role-detail-dialog';
 
 export const Route = createFileRoute('/_authenticated/rbac/roles')({
   validateSearch: (search: Record<string, unknown>): GetRolesParams => {
@@ -18,6 +20,7 @@ export const Route = createFileRoute('/_authenticated/rbac/roles')({
 function RolesPage() {
   const searchParams = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
+  const [viewRoleId, setViewRoleId] = useState<string | null>(null);
 
   const { data, isLoading } = useRoles(searchParams);
 
@@ -55,7 +58,16 @@ function RolesPage() {
         data={data}
         isLoading={isLoading}
         onPageChange={handlePageChange}
+        onView={setViewRoleId}
+      />
+
+      <RoleDetailDialog
+        roleId={viewRoleId}
+        onOpenChange={(open) => {
+          if (!open) setViewRoleId(null);
+        }}
       />
     </div>
   );
 }
+

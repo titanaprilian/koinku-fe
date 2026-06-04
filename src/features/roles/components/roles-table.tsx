@@ -6,6 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { EyeIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Role, PaginatedRolesResponse } from '../types';
 
@@ -13,9 +14,10 @@ interface RolesTableProps {
   data?: PaginatedRolesResponse;
   isLoading: boolean;
   onPageChange: (page: number) => void;
+  onView: (id: string) => void;
 }
 
-export function RolesTable({ data, isLoading, onPageChange }: RolesTableProps) {
+export function RolesTable({ data, isLoading, onPageChange, onView }: RolesTableProps) {
   if (isLoading) return <div className="py-8 text-center text-muted-foreground">Loading roles...</div>;
   if (!data) return null;
 
@@ -28,6 +30,7 @@ export function RolesTable({ data, isLoading, onPageChange }: RolesTableProps) {
               <TableHead>Name</TableHead>
               <TableHead>Description</TableHead>
               <TableHead>Created At</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -36,11 +39,21 @@ export function RolesTable({ data, isLoading, onPageChange }: RolesTableProps) {
                 <TableCell className="font-medium">{role.name}</TableCell>
                 <TableCell>{role.description}</TableCell>
                 <TableCell>{new Date(role.createdAt).toLocaleDateString()}</TableCell>
+                <TableCell className="text-right">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => onView(role.id)}
+                  >
+                    <EyeIcon className="h-4 w-4 mr-2" />
+                    View
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
             {data.data.length === 0 && (
               <TableRow>
-                <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
+                <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
                   No roles found.
                 </TableCell>
               </TableRow>
