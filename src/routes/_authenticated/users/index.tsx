@@ -59,6 +59,16 @@ function UsersPage() {
     });
   };
 
+  const handleLimitChange = (limit: number) => {
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        limit,
+        page: 1,
+      }),
+    });
+  };
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -80,6 +90,7 @@ function UsersPage() {
         data={data}
         isLoading={isLoading}
         onPageChange={handlePageChange}
+        onLimitChange={handleLimitChange}
         onDetail={setSelectedUserId}
         onEdit={setEditUserId}
         onDelete={setDeleteUserId}
