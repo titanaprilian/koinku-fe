@@ -286,8 +286,9 @@ export function CreateRoleDialog({ open, onOpenChange }: CreateRoleDialogProps) 
                           <TableCell className="px-4 py-3 font-medium text-left">
                             {feature.name}
                           </TableCell>
-                          <TableCell className="px-4 py-3 text-center">
+                          <TableCell className="px-4 py-3 text-center !px-4">
                             <Checkbox
+                              className="mx-auto"
                               checked={isAllChecked(feature.id)}
                               indeterminate={isSomeChecked(feature.id)}
                               onCheckedChange={() => toggleSelectAll(feature.id)}
@@ -295,8 +296,9 @@ export function CreateRoleDialog({ open, onOpenChange }: CreateRoleDialogProps) 
                             />
                           </TableCell>
                           {OPERATIONS.map((op) => (
-                            <TableCell key={op} className="px-4 py-3 text-center">
+                            <TableCell key={op} className="px-4 py-3 text-center !px-4">
                               <Checkbox
+                                className="mx-auto"
                                 checked={permissions[feature.id]?.[op] ?? false}
                                 onCheckedChange={() =>
                                   togglePermission(feature.id, op)
