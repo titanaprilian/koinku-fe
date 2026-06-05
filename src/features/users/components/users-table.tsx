@@ -40,12 +40,15 @@ export function UsersTable({
   if (isLoading) return <div className="py-8 text-center text-muted-foreground">Loading users...</div>;
   if (!data) return null;
 
+  const startNumber = (data.pagination.page - 1) * data.pagination.limit;
+
   return (
     <div className="space-y-4">
       <div className="border rounded-md">
         <Table>
           <TableHeader>
             <TableRow className="border-b border-border/50 hover:bg-transparent">
+              <TableHead className="w-[80px] px-4 py-3 text-muted-foreground font-medium">No.</TableHead>
               <TableHead className="px-4 py-3 text-muted-foreground font-medium">Name</TableHead>
               <TableHead className="px-4 py-3 text-muted-foreground font-medium">Email</TableHead>
               <TableHead className="px-4 py-3 text-muted-foreground font-medium">Role</TableHead>
@@ -54,8 +57,9 @@ export function UsersTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.data.map((user: User) => (
+            {data.data.map((user: User, index: number) => (
               <TableRow key={user.id} className="border-b border-border/50 hover:bg-muted/50 transition-colors">
+                <TableCell className="px-4 py-4 text-muted-foreground font-medium">{startNumber + index + 1}</TableCell>
                 <TableCell className="px-4 py-4 font-medium">{user.name}</TableCell>
                 <TableCell className="px-4 py-4">{user.email}</TableCell>
                 <TableCell className="px-4 py-4">{user.roleName}</TableCell>
@@ -105,7 +109,7 @@ export function UsersTable({
             ))}
             {data.data.length === 0 && (
               <TableRow>
-                <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+                <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
                   No users found.
                 </TableCell>
               </TableRow>
