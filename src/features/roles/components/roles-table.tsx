@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { EyeIcon, PencilIcon, TrashIcon } from 'lucide-react';
+import { EyeIcon, PencilIcon, Trash2Icon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Role, PaginatedRolesResponse } from '../types';
 
@@ -69,7 +69,7 @@ export function RolesTable({ data, isLoading, onPageChange, onView, onEdit, onDe
                     onClick={() => onDelete(role)}
                     title="Delete"
                   >
-                    <TrashIcon className="h-4 w-4" />
+                    <Trash2Icon className="h-4 w-4" />
                     <span className="sr-only">Delete</span>
                   </Button>
                 </TableCell>
