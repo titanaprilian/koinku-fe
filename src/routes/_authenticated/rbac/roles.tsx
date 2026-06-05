@@ -5,10 +5,11 @@ import { Button } from '@/components/ui/button';
 import { useRoles } from '@/features/roles/hooks/use-roles';
 import { RolesFilters } from '@/features/roles/components/roles-filters';
 import { RolesTable } from '@/features/roles/components/roles-table';
-import type { GetRolesParams } from '@/features/roles/types';
+import type { GetRolesParams, Role } from '@/features/roles/types';
 import { RoleDetailDialog } from '@/features/roles/components/role-detail-dialog';
 import { CreateRoleDialog } from '@/features/roles/components/create-role-dialog';
 import { EditRoleDialog } from '@/features/roles/components/edit-role-dialog';
+import { DeleteRoleDialog } from '@/features/roles/components/delete-role-dialog';
 
 export const Route = createFileRoute('/_authenticated/rbac/roles')({
   validateSearch: (search: Record<string, unknown>): GetRolesParams => {
@@ -27,6 +28,7 @@ function RolesPage() {
   const [viewRoleId, setViewRoleId] = useState<string | null>(null);
   const [editRoleId, setEditRoleId] = useState<string | null>(null);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [deleteRole, setDeleteRole] = useState<Role | null>(null);
 
   const { data, isLoading } = useRoles(searchParams);
 
@@ -70,6 +72,7 @@ function RolesPage() {
         onPageChange={handlePageChange}
         onView={setViewRoleId}
         onEdit={setEditRoleId}
+        onDelete={setDeleteRole}
       />
 
       <RoleDetailDialog
@@ -89,6 +92,13 @@ function RolesPage() {
       <CreateRoleDialog
         open={createDialogOpen}
         onOpenChange={setCreateDialogOpen}
+      />
+
+      <DeleteRoleDialog
+        role={deleteRole}
+        onOpenChange={(open) => {
+          if (!open) setDeleteRole(null);
+        }}
       />
     </div>
   );

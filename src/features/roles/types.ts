@@ -173,3 +173,19 @@ export interface EditRoleResponse {
     updatedAt: string;
   };
 }
+
+// ─── Delete Role ────────────────────────────────────────────────────────────
+
+export interface DeleteRoleResponse {
+  error: boolean;
+  code: number;
+  message: string;
+  data: {
+    id: string;
+    name: string;
+    description: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+}
+

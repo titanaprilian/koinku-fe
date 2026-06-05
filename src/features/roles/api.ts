@@ -11,6 +11,7 @@ import type {
   CreateRoleResponse,
   EditRolePayload,
   EditRoleResponse,
+  DeleteRoleResponse,
 } from './types';
 
 export async function getRoleOptions(params?: GetRoleOptionsParams): Promise<PaginatedRoleOptionsResponse> {
@@ -40,5 +41,10 @@ export async function createRole(payload: CreateRolePayload): Promise<CreateRole
 
 export async function editRole(id: string, payload: EditRolePayload): Promise<EditRoleResponse> {
   const { data } = await api.patch<EditRoleResponse>(`/rbac/roles/${id}`, payload);
+  return data;
+}
+
+export async function deleteRole(id: string): Promise<DeleteRoleResponse> {
+  const { data } = await api.delete<DeleteRoleResponse>(`/rbac/roles/${id}`);
   return data;
 }
