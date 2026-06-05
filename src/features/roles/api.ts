@@ -9,6 +9,8 @@ import type {
   PaginatedFeaturesResponse,
   CreateRolePayload,
   CreateRoleResponse,
+  EditRolePayload,
+  EditRoleResponse,
 } from './types';
 
 export async function getRoleOptions(params?: GetRoleOptionsParams): Promise<PaginatedRoleOptionsResponse> {
@@ -33,5 +35,10 @@ export async function getFeatures(params?: GetFeaturesParams): Promise<Paginated
 
 export async function createRole(payload: CreateRolePayload): Promise<CreateRoleResponse> {
   const { data } = await api.post<CreateRoleResponse>('/rbac/roles', payload);
+  return data;
+}
+
+export async function editRole(id: string, payload: EditRolePayload): Promise<EditRoleResponse> {
+  const { data } = await api.patch<EditRoleResponse>(`/rbac/roles/${id}`, payload);
   return data;
 }

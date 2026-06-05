@@ -8,6 +8,7 @@ import { RolesTable } from '@/features/roles/components/roles-table';
 import type { GetRolesParams } from '@/features/roles/types';
 import { RoleDetailDialog } from '@/features/roles/components/role-detail-dialog';
 import { CreateRoleDialog } from '@/features/roles/components/create-role-dialog';
+import { EditRoleDialog } from '@/features/roles/components/edit-role-dialog';
 
 export const Route = createFileRoute('/_authenticated/rbac/roles')({
   validateSearch: (search: Record<string, unknown>): GetRolesParams => {
@@ -24,6 +25,7 @@ function RolesPage() {
   const searchParams = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
   const [viewRoleId, setViewRoleId] = useState<string | null>(null);
+  const [editRoleId, setEditRoleId] = useState<string | null>(null);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
   const { data, isLoading } = useRoles(searchParams);
@@ -67,12 +69,20 @@ function RolesPage() {
         isLoading={isLoading}
         onPageChange={handlePageChange}
         onView={setViewRoleId}
+        onEdit={setEditRoleId}
       />
 
       <RoleDetailDialog
         roleId={viewRoleId}
         onOpenChange={(open) => {
           if (!open) setViewRoleId(null);
+        }}
+      />
+
+      <EditRoleDialog
+        roleId={editRoleId}
+        onOpenChange={(open) => {
+          if (!open) setEditRoleId(null);
         }}
       />
 

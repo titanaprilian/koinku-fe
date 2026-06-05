@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { EyeIcon } from 'lucide-react';
+import { EyeIcon, PencilIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Role, PaginatedRolesResponse } from '../types';
 
@@ -15,9 +15,10 @@ interface RolesTableProps {
   isLoading: boolean;
   onPageChange: (page: number) => void;
   onView: (id: string) => void;
+  onEdit: (id: string) => void;
 }
 
-export function RolesTable({ data, isLoading, onPageChange, onView }: RolesTableProps) {
+export function RolesTable({ data, isLoading, onPageChange, onView, onEdit }: RolesTableProps) {
   if (isLoading) return <div className="py-8 text-center text-muted-foreground">Loading roles...</div>;
   if (!data) return null;
 
@@ -49,6 +50,16 @@ export function RolesTable({ data, isLoading, onPageChange, onView }: RolesTable
                   >
                     <EyeIcon className="h-4 w-4" />
                     <span className="sr-only">Detail</span>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="hover:bg-muted text-muted-foreground"
+                    onClick={() => onEdit(role.id)}
+                    title="Edit"
+                  >
+                    <PencilIcon className="h-4 w-4" />
+                    <span className="sr-only">Edit</span>
                   </Button>
                 </TableCell>
               </TableRow>
