@@ -47,7 +47,7 @@ export function RolesTable({
         <Table>
           <TableHeader>
             <TableRow className="border-b border-border/50 hover:bg-transparent">
-              <TableHead className="w-[80px] px-4 py-3 text-muted-foreground font-medium">No.</TableHead>
+              <TableHead className="w-[80px] px-4 py-3 text-center text-muted-foreground font-medium">No.</TableHead>
               <TableHead className="px-4 py-3 text-muted-foreground font-medium">Name</TableHead>
               <TableHead className="px-4 py-3 text-muted-foreground font-medium">Description</TableHead>
               <TableHead className="px-4 py-3 text-muted-foreground font-medium">Created At</TableHead>
@@ -57,7 +57,7 @@ export function RolesTable({
           <TableBody>
             {data.data.map((role: Role, index: number) => (
               <TableRow key={role.id} className="border-b border-border/50 hover:bg-muted/50 transition-colors">
-                <TableCell className="px-4 py-4 text-muted-foreground font-medium">{startNumber + index + 1}</TableCell>
+                <TableCell className="px-4 py-4 text-center text-muted-foreground font-medium">{startNumber + index + 1}</TableCell>
                 <TableCell className="px-4 py-4 font-medium">{role.name}</TableCell>
                 <TableCell className="px-4 py-4 text-muted-foreground">{role.description}</TableCell>
                 <TableCell className="px-4 py-4 text-muted-foreground">{new Date(role.createdAt).toLocaleDateString()}</TableCell>
