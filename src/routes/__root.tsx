@@ -1,6 +1,7 @@
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
 import type { QueryClient } from '@tanstack/react-query';
 import type { AuthState } from '@/features/auth/types';
+import { Toaster } from "@/components/ui/sonner";
 
 export interface RouterContext {
   queryClient: QueryClient;
@@ -11,7 +12,9 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <div className="min-h-screen bg-background font-sans antialiased">
       <Outlet />
+      <Toaster position="top-right" />
     </div>
   ),
 });
+
 

@@ -247,26 +247,22 @@ import { Progress } from "@/components/ui/progress"
 ### Toasts / Notifications
 
 ```tsx
-import { useToast } from "@/hooks/use-toast";
-
-const { toast } = useToast();
+import { toast } from "sonner";
 
 // Success
-toast({ title: "Saved!", description: "Your changes have been saved." });
+toast.success("Success", { description: "Your changes have been saved." });
 
 // Error
-toast({
-  title: "Error",
-  description: "Something went wrong.",
-  variant: "destructive",
-});
+toast.error("Error", { description: "Something went wrong." });
 ```
 
 **Rules:**
 
+- Use `toast` from `"sonner"`. Do not use the old `useToast` hook.
+- **Title + Description format is REQUIRED**: Always pass `"Success"` or `"Error"` as the first argument (which renders as a bold title). Pass the actual message in the `description` field of the options object.
 - Use toast for transient feedback (save, delete, copy)
 - Never use toast for errors that require user action — use inline `<Alert>` instead
-- Keep toast messages under 10 words for title, 20 words for description
+- Keep toast descriptions under 20 words.
 
 ---
 
