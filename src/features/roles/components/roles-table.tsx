@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { EyeIcon, PencilIcon } from 'lucide-react';
+import { EyeIcon, PencilIcon, Trash2Icon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Role, PaginatedRolesResponse } from '../types';
 
@@ -16,9 +16,10 @@ interface RolesTableProps {
   onPageChange: (page: number) => void;
   onView: (id: string) => void;
   onEdit: (id: string) => void;
+  onDelete: (role: Role) => void;
 }
 
-export function RolesTable({ data, isLoading, onPageChange, onView, onEdit }: RolesTableProps) {
+export function RolesTable({ data, isLoading, onPageChange, onView, onEdit, onDelete }: RolesTableProps) {
   if (isLoading) return <div className="py-8 text-center text-muted-foreground">Loading roles...</div>;
   if (!data) return null;
 
@@ -60,6 +61,16 @@ export function RolesTable({ data, isLoading, onPageChange, onView, onEdit }: Ro
                   >
                     <PencilIcon className="h-4 w-4" />
                     <span className="sr-only">Edit</span>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="hover:bg-destructive/10 hover:text-destructive text-muted-foreground"
+                    onClick={() => onDelete(role)}
+                    title="Delete"
+                  >
+                    <Trash2Icon className="h-4 w-4" />
+                    <span className="sr-only">Delete</span>
                   </Button>
                 </TableCell>
               </TableRow>
