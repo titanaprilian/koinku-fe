@@ -51,6 +51,16 @@ function RolesPage() {
     });
   };
 
+  const handleLimitChange = (limit: number) => {
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        limit,
+        page: 1,
+      }),
+    });
+  };
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -70,6 +80,7 @@ function RolesPage() {
         data={data}
         isLoading={isLoading}
         onPageChange={handlePageChange}
+        onLimitChange={handleLimitChange}
         onView={setViewRoleId}
         onEdit={setEditRoleId}
         onDelete={setDeleteRole}

@@ -8,18 +8,34 @@ import {
 } from '@/components/ui/table';
 import { EyeIcon, PencilIcon, Trash2Icon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import type { Role, PaginatedRolesResponse } from '../types';
 
 interface RolesTableProps {
   data?: PaginatedRolesResponse;
   isLoading: boolean;
   onPageChange: (page: number) => void;
+  onLimitChange: (limit: number) => void;
   onView: (id: string) => void;
   onEdit: (id: string) => void;
   onDelete: (role: Role) => void;
 }
 
-export function RolesTable({ data, isLoading, onPageChange, onView, onEdit, onDelete }: RolesTableProps) {
+export function RolesTable({
+  data,
+  isLoading,
+  onPageChange,
+  onLimitChange,
+  onView,
+  onEdit,
+  onDelete,
+}: RolesTableProps) {
   if (isLoading) return <div className="py-8 text-center text-muted-foreground">Loading roles...</div>;
   if (!data) return null;
 
@@ -87,26 +103,46 @@ export function RolesTable({ data, isLoading, onPageChange, onView, onEdit, onDe
       </div>
       
       {data.data.length > 0 && (
-        <div className="flex items-center justify-end space-x-2 mt-4">
-          <Button
-            variant="ghost"
-            className="rounded-full hover:bg-muted px-4"
-            onClick={() => onPageChange(data.pagination.page - 1)}
-            disabled={data.pagination.page <= 1}
-          >
-            Previous
-          </Button>
-          <div className="flex items-center justify-center rounded-full bg-primary text-primary-foreground h-9 px-4 text-sm font-medium">
-            {data.pagination.page}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4">
+          <div className="flex items-center space-x-2">
+            <span className="text-sm text-muted-foreground">Rows per page</span>
+            <Select
+              value={data.pagination.limit.toString()}
+              onValueChange={(val) => onLimitChange(Number(val))}
+            >
+              <SelectTrigger className="h-8 w-[70px]">
+                <SelectValue placeholder={data.pagination.limit.toString()} />
+              </SelectTrigger>
+              <SelectContent side="top">
+                {[10, 20, 30, 40, 50].map((pageSize) => (
+                  <SelectItem key={pageSize} value={String(pageSize)}>
+                    {pageSize}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
-          <Button
-            variant="ghost"
-            className="rounded-full hover:bg-muted px-4"
-            onClick={() => onPageChange(data.pagination.page + 1)}
-            disabled={data.pagination.page >= data.pagination.totalPages}
-          >
-            Next
-          </Button>
+          <div className="flex items-center space-x-2">
+            <Button
+              variant="ghost"
+              className="rounded-full hover:bg-muted px-4"
+              onClick={() => onPageChange(data.pagination.page - 1)}
+              disabled={data.pagination.page <= 1}
+            >
+              Previous
+            </Button>
+            <div className="flex items-center justify-center rounded-full bg-primary text-primary-foreground h-9 px-4 text-sm font-medium">
+              {data.pagination.page}
+            </div>
+            <Button
+              variant="ghost"
+              className="rounded-full hover:bg-muted px-4"
+              onClick={() => onPageChange(data.pagination.page + 1)}
+              disabled={data.pagination.page >= data.pagination.totalPages}
+            >
+              Next
+            </Button>
+          </div>
         </div>
       )}
     </div>
