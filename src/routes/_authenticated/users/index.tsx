@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { PlusIcon } from 'lucide-react';
 
@@ -39,6 +39,20 @@ function UsersPage() {
   const [deleteUserId, setDeleteUserId] = useState<string | null>(null);
 
   const { data, isLoading } = useUsers(searchParams);
+
+  useEffect(() => {
+    if (data) {
+      const { page, totalPages } = data.pagination;
+      if (page > 1 && (totalPages === 0 || page > totalPages)) {
+        navigate({
+          search: (prev) => ({
+            ...prev,
+            page: Math.max(1, totalPages),
+          }),
+        });
+      }
+    }
+  }, [data, navigate]);
 
   const updateFilters = (newFilters: Partial<GetUsersParams>) => {
     navigate({

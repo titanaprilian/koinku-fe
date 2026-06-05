@@ -16,6 +16,16 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import type { Role, PaginatedRolesResponse } from '../types';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
+import { generatePaginationLinks } from '@/lib/pagination';
 
 interface RolesTableProps {
   data?: PaginatedRolesResponse;
@@ -126,26 +136,40 @@ export function RolesTable({
               </SelectContent>
             </Select>
           </div>
-          <div className="flex items-center space-x-2">
-            <Button
-              variant="ghost"
-              className="rounded-full hover:bg-muted px-4"
-              onClick={() => onPageChange(data.pagination.page - 1)}
-              disabled={data.pagination.page <= 1}
-            >
-              Previous
-            </Button>
-            <div className="flex items-center justify-center rounded-full bg-primary text-primary-foreground h-9 px-4 text-sm font-medium">
-              {data.pagination.page}
-            </div>
-            <Button
-              variant="ghost"
-              className="rounded-full hover:bg-muted px-4"
-              onClick={() => onPageChange(data.pagination.page + 1)}
-              disabled={data.pagination.page >= data.pagination.totalPages}
-            >
-              Next
-            </Button>
+          <div className="flex items-center">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious 
+                    onClick={() => onPageChange(data.pagination.page - 1)}
+                    className={data.pagination.page <= 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+
+                {generatePaginationLinks(data.pagination.page, data.pagination.totalPages).map((page, i) => (
+                  <PaginationItem key={i}>
+                    {page === 'ellipsis' ? (
+                      <PaginationEllipsis />
+                    ) : (
+                      <PaginationLink
+                        onClick={() => onPageChange(page)}
+                        isActive={page === data.pagination.page}
+                        className="cursor-pointer"
+                      >
+                        {page}
+                      </PaginationLink>
+                    )}
+                  </PaginationItem>
+                ))}
+
+                <PaginationItem>
+                  <PaginationNext
+                    onClick={() => onPageChange(data.pagination.page + 1)}
+                    className={data.pagination.page >= data.pagination.totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
           </div>
         </div>
       )}
