@@ -310,6 +310,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 **Styling Rules (Clean & Spaced):**
 
+- **Row Index Column (No.):** Always include a row index/sequence column (typically titled "No.") as the first column in tables. This provides immediate context for the number of records and is calculated using the page offset: `(page - 1) * limit + index + 1`. Set a fixed width (e.g., `w-[80px]`) so it remains neat.
 - Generous cell padding (e.g., `px-4 py-4` or `p-5`)
 - Invisible vertical borders (do not use vertical dividers between columns)
 - Subtle horizontal dividers (`border-b border-border/50`)
@@ -318,20 +319,29 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 ```tsx
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
+// In map loops, calculate index using page pagination variables:
+const page = 1;
+const limit = 10;
+const startNumber = (page - 1) * limit;
+
 <Table>
   <TableHeader>
     <TableRow className="border-b border-border/50 hover:bg-transparent">
+      <TableHead className="w-[80px] px-4 py-3 text-muted-foreground font-medium">No.</TableHead>
       <TableHead className="px-4 py-3 text-muted-foreground font-medium">Name</TableHead>
       <TableHead className="px-4 py-3 text-muted-foreground font-medium">Status</TableHead>
     </TableRow>
   </TableHeader>
   <TableBody>
-    <TableRow className="border-b border-border/50 hover:bg-muted/50 transition-colors">
-      <TableCell className="px-4 py-4">Alice</TableCell>
-      <TableCell className="px-4 py-4">
-        <Badge className="bg-emerald-500 text-white hover:bg-emerald-600 border-transparent">Active</Badge>
-      </TableCell>
-    </TableRow>
+    {data.map((item, index) => (
+      <TableRow key={item.id} className="border-b border-border/50 hover:bg-muted/50 transition-colors">
+        <TableCell className="px-4 py-4 text-muted-foreground font-medium">{startNumber + index + 1}</TableCell>
+        <TableCell className="px-4 py-4">{item.name}</TableCell>
+        <TableCell className="px-4 py-4">
+          <Badge className="bg-emerald-500 text-white hover:bg-emerald-600 border-transparent">Active</Badge>
+        </TableCell>
+      </TableRow>
+    ))}
   </TableBody>
 </Table>
 ```
