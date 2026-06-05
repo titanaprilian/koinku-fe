@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -31,6 +31,20 @@ function RolesPage() {
   const [deleteRole, setDeleteRole] = useState<Role | null>(null);
 
   const { data, isLoading } = useRoles(searchParams);
+
+  useEffect(() => {
+    if (data) {
+      const { page, totalPages } = data.pagination;
+      if (page > 1 && (totalPages === 0 || page > totalPages)) {
+        navigate({
+          search: (prev) => ({
+            ...prev,
+            page: Math.max(1, totalPages),
+          }),
+        });
+      }
+    }
+  }, [data, navigate]);
 
   const updateFilters = (newFilters: Partial<GetRolesParams>) => {
     navigate({
