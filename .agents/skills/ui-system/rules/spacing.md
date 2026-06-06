@@ -155,6 +155,26 @@ Koinku uses Tailwind's default spacing scale. Stick to multiples of 4px — neve
 
 ---
 
+## Multi-column Dashboard Layouts
+
+For dashboard rows containing multiple cards with asymmetric layout, use a responsive 12-column grid:
+
+```tsx
+<div className="grid grid-cols-12 gap-4 lg:gap-6 mt-6">
+  // Primary widget (takes ~60% width on desktop)
+  <Card className="col-span-12 md:col-span-7">
+    ...
+  </Card>
+  
+  // Secondary widget (takes ~40% width on desktop)
+  <Card className="col-span-12 md:col-span-5">
+    ...
+  </Card>
+</div>
+```
+
+---
+
 ## Responsive Approach
 
 Koinku is mobile-first. Tablet/desktop is a bonus, not the target.

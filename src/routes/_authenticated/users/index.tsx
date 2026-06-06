@@ -13,7 +13,7 @@ import { DeleteUserDialog } from '@/features/users/components/delete-user-dialog
 import type { GetUsersParams } from '@/features/users/types';
 
 export const Route = createFileRoute('/_authenticated/users/')({
-  validateSearch: (search: Record<string, unknown>): GetUsersParams => {
+  validateSearch: (search: Record<string, unknown>): GetUsersParams & { create?: boolean } => {
     let parsedIsActive: boolean | undefined = undefined;
     if (search.isActive !== undefined) {
       parsedIsActive = search.isActive === 'true' || search.isActive === true;
@@ -25,6 +25,7 @@ export const Route = createFileRoute('/_authenticated/users/')({
       search: search.search as string | undefined,
       roleId: search.roleId as string | undefined,
       isActive: parsedIsActive,
+      create: search.create === 'true' || search.create === true || undefined,
     };
   },
   component: UsersPage,
@@ -33,7 +34,7 @@ export const Route = createFileRoute('/_authenticated/users/')({
 function UsersPage() {
   const searchParams = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
-  const [createOpen, setCreateOpen] = useState(false);
+  const [createOpen, setCreateOpen] = useState(!!searchParams.create);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [editUserId, setEditUserId] = useState<string | null>(null);
   const [deleteUserId, setDeleteUserId] = useState<string | null>(null);
@@ -110,7 +111,21 @@ function UsersPage() {
         onDelete={setDeleteUserId}
       />
 
-      <CreateUserForm open={createOpen} onOpenChange={setCreateOpen} />
+      <CreateUserForm
+        open={createOpen}
+        onOpenChange={(open) => {
+          setCreateOpen(open);
+          if (!open && searchParams.create) {
+            navigate({
+              search: (prev) => {
+                const next = { ...prev };
+                delete next.create;
+                return next;
+              },
+            });
+          }
+        }}
+      />
       <UserDetailDialog
         userId={selectedUserId}
         onOpenChange={(open) => {
