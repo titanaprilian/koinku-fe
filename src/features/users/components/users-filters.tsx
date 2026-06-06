@@ -75,7 +75,9 @@ export function UsersFilters({ search, roleId, isActive, onFilterChange }: Users
         }
       >
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Status" />
+          <SelectValue placeholder="Status">
+            {isActive === undefined ? 'All Statuses' : isActive ? 'Active' : 'Inactive'}
+          </SelectValue>
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="all">All Statuses</SelectItem>
