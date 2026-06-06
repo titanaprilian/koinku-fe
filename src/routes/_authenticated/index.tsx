@@ -98,10 +98,12 @@ function DashboardIndex() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="hover:shadow-md hover:border-primary/50 transition-all">
+        <Card className="border-t-4 border-t-primary hover:shadow-md hover:border-primary/50 transition-all">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <div className="bg-primary/10 text-primary p-2 rounded-lg">
+              <Users className="size-4" />
+            </div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold font-mono">{stats?.totalUsers ?? 0}</div>
@@ -111,10 +113,12 @@ function DashboardIndex() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-md hover:border-primary/50 transition-all">
+        <Card className="border-t-4 border-t-primary hover:shadow-md hover:border-primary/50 transition-all">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Active Users</CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
+            <div className="bg-primary/10 text-primary p-2 rounded-lg">
+              <Activity className="size-4" />
+            </div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold font-mono">{stats?.activeUsers ?? 0}</div>
@@ -124,10 +128,12 @@ function DashboardIndex() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-md hover:border-primary/50 transition-all">
+        <Card className="border-t-4 border-t-primary hover:shadow-md hover:border-primary/50 transition-all">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Roles</CardTitle>
-            <Shield className="h-4 w-4 text-muted-foreground" />
+            <div className="bg-primary/10 text-primary p-2 rounded-lg">
+              <Shield className="size-4" />
+            </div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold font-mono">{stats?.totalRoles ?? 0}</div>
@@ -135,10 +141,12 @@ function DashboardIndex() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-md hover:border-primary/50 transition-all">
+        <Card className="border-t-4 border-t-primary hover:shadow-md hover:border-primary/50 transition-all">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Features</CardTitle>
-            <Layers className="h-4 w-4 text-muted-foreground" />
+            <div className="bg-primary/10 text-primary p-2 rounded-lg">
+              <Layers className="size-4" />
+            </div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold font-mono">{stats?.totalFeatures ?? 0}</div>
