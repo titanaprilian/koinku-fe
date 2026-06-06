@@ -43,6 +43,13 @@ import { Button } from "@/components/ui/button"
 <Button variant="link">View details</Button>
 ```
 
+**Styling Rules (Soft Indigo Standard):**
+
+- **Primary (`variant="default"`):** Soft indigo color (`bg-primary text-primary-foreground`), `rounded-xl` shape, gentle shadow (`shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all`).
+- **Secondary (`variant="secondary"`):** Very light lavender background with indigo-violet text (`bg-secondary text-secondary-foreground`), `rounded-xl`, soft hover states (`hover:bg-secondary/80`).
+- **Destructive (`variant="destructive"`):** Standard destructive token, but ensure it follows the `rounded-xl` soft shape.
+- **Base Shape:** Base button styling should be softer (`rounded-xl` or `rounded-2xl`).
+
 **Size rules:**
 
 - `size="sm"` — inside tables, compact lists, tags
