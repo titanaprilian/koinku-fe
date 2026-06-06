@@ -94,22 +94,26 @@ function UsersPage() {
         </Button>
       </div>
 
-      <UsersFilters
-        search={searchParams.search || ''}
-        roleId={searchParams.roleId || ''}
-        isActive={searchParams.isActive}
-        onFilterChange={updateFilters}
-      />
+      <div className="bg-card text-card-foreground shadow-sm border rounded-xl">
+        <div className="p-6 border-b border-border">
+          <UsersFilters
+            search={searchParams.search || ''}
+            roleId={searchParams.roleId || ''}
+            isActive={searchParams.isActive}
+            onFilterChange={updateFilters}
+          />
+        </div>
 
-      <UsersTable
-        data={data}
-        isLoading={isLoading}
-        onPageChange={handlePageChange}
-        onLimitChange={handleLimitChange}
-        onDetail={setSelectedUserId}
-        onEdit={setEditUserId}
-        onDelete={setDeleteUserId}
-      />
+        <UsersTable
+          data={data}
+          isLoading={isLoading}
+          onPageChange={handlePageChange}
+          onLimitChange={handleLimitChange}
+          onDetail={setSelectedUserId}
+          onEdit={setEditUserId}
+          onDelete={setDeleteUserId}
+        />
+      </div>
 
       <CreateUserForm
         open={createOpen}

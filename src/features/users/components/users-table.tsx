@@ -47,17 +47,17 @@ export function UsersTable({
   onEdit,
   onDelete,
 }: UsersTableProps) {
-  if (isLoading) return <div className="py-8 text-center text-muted-foreground">Loading users...</div>;
+  if (isLoading) return <div className="p-6 text-center text-muted-foreground">Loading users...</div>;
   if (!data) return null;
 
   const startNumber = (data.pagination.page - 1) * data.pagination.limit;
 
   return (
-    <div className="space-y-4">
-      <div className="border rounded-md">
+    <div className="w-full">
+      <div className="w-full overflow-auto">
         <Table>
-          <TableHeader>
-            <TableRow className="border-b border-border/50 hover:bg-transparent">
+          <TableHeader className="bg-muted/50">
+            <TableRow className="border-b border-border hover:bg-transparent">
               <TableHead className="w-[80px] px-4 py-3 text-center text-muted-foreground font-medium">No.</TableHead>
               <TableHead className="px-4 py-3 text-muted-foreground font-medium">Name</TableHead>
               <TableHead className="px-4 py-3 text-muted-foreground font-medium">Email</TableHead>
@@ -70,14 +70,21 @@ export function UsersTable({
             {data.data.map((user: User, index: number) => (
               <TableRow key={user.id} className="border-b border-border/50 hover:bg-muted/50 transition-colors">
                 <TableCell className="px-4 py-4 text-center text-muted-foreground font-medium">{startNumber + index + 1}</TableCell>
-                <TableCell className="px-4 py-4 font-medium">{user.name}</TableCell>
+                <TableCell className="px-4 py-4 font-medium">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-xs font-medium text-primary">
+                      {user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
+                    </div>
+                    <span>{user.name}</span>
+                  </div>
+                </TableCell>
                 <TableCell className="px-4 py-4">{user.email}</TableCell>
                 <TableCell className="px-4 py-4">{user.roleName}</TableCell>
                 <TableCell className="px-4 py-4">
                   {user.isActive ? (
-                    <Badge className="bg-emerald-500 text-white hover:bg-emerald-600 border-transparent">Active</Badge>
+                    <Badge className="border-emerald-200 bg-emerald-50 text-emerald-600 hover:bg-emerald-100">Active</Badge>
                   ) : (
-                    <Badge className="bg-gray-500 text-white hover:bg-gray-600 border-transparent">Inactive</Badge>
+                    <Badge className="border-border bg-muted text-muted-foreground hover:bg-muted/80">Inactive</Badge>
                   )}
                 </TableCell>
                 <TableCell className="text-right space-x-1 px-4 py-4">
@@ -129,7 +136,7 @@ export function UsersTable({
       </div>
       
       {data.data.length > 0 && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-6 border-t border-border">
           <div className="flex items-center space-x-2">
             <span className="text-sm text-muted-foreground">Rows per page</span>
             <Select

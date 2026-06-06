@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Loader2 } from 'lucide-react';
+import { Loader2, User, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -46,6 +46,7 @@ export function EditUserForm({ userId, onOpenChange }: EditUserFormProps) {
   const { mutate: editUser, isPending, error } = useEditUser(userId ?? '');
   const { data: rolesData, isLoading: isLoadingRoles } = useRoleOptions({ limit: 100 });
   const roles = rolesData?.data ?? [];
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<EditUserPayload>({
     resolver: typeboxResolver(EditUserSchema),
@@ -103,7 +104,7 @@ export function EditUserForm({ userId, onOpenChange }: EditUserFormProps) {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-md rounded-sm border shadow-sm bg-white dark:bg-zinc-950">
+      <DialogContent className="sm:max-w-xl rounded-sm border shadow-sm bg-white dark:bg-zinc-950">
         <DialogHeader>
           <DialogTitle>Edit User</DialogTitle>
           <DialogDescription>
@@ -126,113 +127,136 @@ export function EditUserForm({ userId, onOpenChange }: EditUserFormProps) {
                 <p className="text-sm text-destructive">{serverMessage}</p>
               )}
 
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="John Doe" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                    {serverIssues.find((i) => i.path === 'name') && (
-                      <p className="text-sm text-destructive">
-                        {serverIssues.find((i) => i.path === 'name')!.message}
-                      </p>
-                    )}
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input type="email" placeholder="john@example.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                    {serverIssues.find((i) => i.path === 'email') && (
-                      <p className="text-sm text-destructive">
-                        {serverIssues.find((i) => i.path === 'email')!.message}
-                      </p>
-                    )}
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Leave blank to keep current password"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                    {serverIssues.find((i) => i.path === 'password') && (
-                      <p className="text-sm text-destructive">
-                        {serverIssues.find((i) => i.path === 'password')!.message}
-                      </p>
-                    )}
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="roleId"
-                render={({ field }) => {
-                  const selectedRole = roles.find((r) => r.id === field.value);
-                  return (
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Role</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                        disabled={isLoadingRoles}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue
-                              placeholder={isLoadingRoles ? 'Loading roles…' : 'Select a role'}
-                            >
-                              {selectedRole ? selectedRole.name : undefined}
-                            </SelectValue>
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {roles.map((role) => (
-                            <SelectItem key={role.id} value={role.id}>
-                              {role.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                          <Input className="pl-10 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20" placeholder="John Doe" {...field} />
+                        </div>
+                      </FormControl>
                       <FormMessage />
-                      {serverIssues.find((i) => i.path === 'roleId') && (
+                      {serverIssues.find((i) => i.path === 'name') && (
                         <p className="text-sm text-destructive">
-                          {serverIssues.find((i) => i.path === 'roleId')!.message}
+                          {serverIssues.find((i) => i.path === 'name')!.message}
                         </p>
                       )}
                     </FormItem>
-                  );
-                }}
-              />
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                          <Input type="email" className="pl-10 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20" placeholder="john@example.com" {...field} />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                      {serverIssues.find((i) => i.path === 'email') && (
+                        <p className="text-sm text-destructive">
+                          {serverIssues.find((i) => i.path === 'email')!.message}
+                        </p>
+                      )}
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                          <Input
+                            type={showPassword ? 'text' : 'password'}
+                            className="pl-10 pr-10 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20"
+                            placeholder="Leave blank to keep current password"
+                            {...field}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-muted-foreground hover:text-primary transition-colors"
+                          >
+                            {showPassword ? (
+                              <EyeOff className="h-4 w-4" />
+                            ) : (
+                              <Eye className="h-4 w-4" />
+                            )}
+                          </button>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                      {serverIssues.find((i) => i.path === 'password') && (
+                        <p className="text-sm text-destructive">
+                          {serverIssues.find((i) => i.path === 'password')!.message}
+                        </p>
+                      )}
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="roleId"
+                  render={({ field }) => {
+                    const selectedRole = roles.find((r) => r.id === field.value);
+                    return (
+                      <FormItem>
+                        <FormLabel>Role</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                          disabled={isLoadingRoles}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="w-full focus:border-primary focus:ring-2 focus:ring-primary/20">
+                              <SelectValue
+                                placeholder={isLoadingRoles ? 'Loading roles…' : 'Select a role'}
+                              >
+                                {selectedRole ? selectedRole.name : undefined}
+                              </SelectValue>
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {roles.map((role) => (
+                              <SelectItem key={role.id} value={role.id}>
+                                {role.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                        {serverIssues.find((i) => i.path === 'roleId') && (
+                          <p className="text-sm text-destructive">
+                            {serverIssues.find((i) => i.path === 'roleId')!.message}
+                          </p>
+                        )}
+                      </FormItem>
+                    );
+                  }}
+                />
+              </div>
 
               <FormField
                 control={form.control}
                 name="isActive"
                 render={({ field }) => (
-                  <FormItem className="flex items-center justify-between rounded-lg border p-3">
+                  <FormItem className="flex items-center justify-between">
                     <FormLabel className="mb-0">Active</FormLabel>
                     <FormControl>
                       <Switch checked={field.value} onCheckedChange={field.onChange} />
@@ -244,7 +268,7 @@ export function EditUserForm({ userId, onOpenChange }: EditUserFormProps) {
           </Form>
         )}
 
-        <DialogFooter>
+        <DialogFooter className="gap-3 sm:space-x-0">
           <Button
             type="button"
             variant="outline"
