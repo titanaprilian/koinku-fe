@@ -1,6 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Activity, Users, Shield, Layers, AlertCircle } from 'lucide-react';
+import { Activity, Users, Shield, Layers, AlertCircle, UserPlus, ShieldAlert, ChevronRight } from 'lucide-react';
 import { useMe } from '@/features/auth/hooks/use-me';
 import { useDashboardStats } from '@/features/dashboard/hooks/use-dashboard-stats';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -156,8 +156,8 @@ function DashboardIndex() {
       </div>
 
       {stats?.userDistribution && stats.userDistribution.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 lg:gap-6 mt-6">
-          <Card className="hover:shadow-md hover:border-primary/50 transition-all">
+        <div className="grid grid-cols-12 gap-4 lg:gap-6 mt-6">
+          <Card className="col-span-12 md:col-span-7 hover:shadow-md hover:border-primary/50 transition-all">
             <CardHeader>
               <CardTitle className="text-xl font-semibold">User Distribution</CardTitle>
               <CardDescription>Breakdown of users by role</CardDescription>
@@ -184,6 +184,47 @@ function DashboardIndex() {
                   </div>
                 );
               })}
+            </CardContent>
+          </Card>
+
+          <Card className="col-span-12 md:col-span-5 hover:shadow-md hover:border-primary/50 transition-all">
+            <CardHeader>
+              <CardTitle className="text-xl font-semibold">Quick Actions</CardTitle>
+              <CardDescription>Common administrator workflows</CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-3">
+              <Link
+                to="/users"
+                search={{ create: true }}
+                className="group flex items-center justify-between p-3 rounded-xl border border-border/50 hover:bg-muted/50 hover:border-primary/20 transition-all cursor-pointer"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="bg-primary/10 text-primary p-2 rounded-lg group-hover:bg-primary/15 transition-colors">
+                    <UserPlus className="size-5" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-sm font-medium text-foreground">Add New User</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">Register a user to the platform</p>
+                  </div>
+                </div>
+                <ChevronRight className="size-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+              </Link>
+
+              <Link
+                to="/rbac/roles"
+                className="group flex items-center justify-between p-3 rounded-xl border border-border/50 hover:bg-muted/50 hover:border-primary/20 transition-all cursor-pointer"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="bg-primary/10 text-primary p-2 rounded-lg group-hover:bg-primary/15 transition-colors">
+                    <ShieldAlert className="size-5" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-sm font-medium text-foreground">Manage Roles</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">Configure access roles & permissions</p>
+                  </div>
+                </div>
+                <ChevronRight className="size-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+              </Link>
             </CardContent>
           </Card>
         </div>
