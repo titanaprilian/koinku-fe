@@ -69,6 +69,7 @@ import { Button } from "@/components/ui/button"
 
 **Styling Rules (Interactive & Responsive):**
 
+- **Base Styling:** Cards must have `bg-card`, a subtle border (`border border-border`), and a soft shadow (`shadow-sm`) to stand out from the page background.
 - **Hover Effects:** Cards should feel interactive. Use `hover:shadow-md hover:border-primary/50 transition-all` when the card is clickable or represents a discrete item.
 - **Responsive Layout:** Never let cards stretch to take full width on large screens (e.g. dashboard widgets). Always use a responsive grid (`grid grid-cols-1 md:grid-cols-2 gap-4` or similar) so they take full width on mobile but sit side-by-side on desktop.
 

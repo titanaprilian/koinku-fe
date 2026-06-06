@@ -46,7 +46,7 @@ Set up a warm, soft palette — gentle and approachable, not clinical or sterile
 ```css
 @layer base {
   :root {
-    --background: 0 0% 98%; /* #FAFAFA warm white */
+    --background: 210 40% 98%; /* #f8fafc soft slate-50 */
     --foreground: 224 15% 15%; /* near-black with warmth */
 
     --card: 0 0% 100%;
