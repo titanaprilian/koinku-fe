@@ -61,11 +61,16 @@ export function Navbar({ onMenuClick }: NavbarProps) {
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
-              <Button variant="ghost" className="relative h-8 w-8 rounded-full" />
+              <Button 
+                variant="ghost" 
+                className="relative h-8 w-8 rounded-full ring-2 ring-primary/20 ring-offset-2 ring-offset-background hover:ring-primary/40 transition-all" 
+              />
             }
           >
             <Avatar className="h-8 w-8">
-              <AvatarFallback>{initials}</AvatarFallback>
+              <AvatarFallback className="bg-primary text-primary-foreground font-medium">
+                {initials}
+              </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end">
