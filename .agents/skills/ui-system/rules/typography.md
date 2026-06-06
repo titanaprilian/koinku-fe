@@ -20,9 +20,9 @@ font-family: "Geist Mono", monospace; /* numbers, amounts, code */
 | Subsection      | `text-base font-medium`            | 16px | 500    | 1.4         | List headers, modal titles          |
 | Body            | `text-sm`                          | 14px | 400    | 1.6         | Descriptions, notes                 |
 | Caption / label | `text-xs`                          | 12px | 400    | 1.5         | Timestamps, hints, secondary labels |
-| Amount (large)  | `text-3xl font-semibold font-mono` | 30px | 600    | 1.2         | Balance totals, summary figures     |
-| Amount (medium) | `text-xl font-medium font-mono`    | 20px | 500    | 1.3         | Card-level figures                  |
-| Amount (small)  | `text-sm font-mono`                | 14px | 400    | 1.6         | List row amounts                    |
+| Amount (large)  | `text-4xl font-bold font-mono text-foreground` | 36px | 700    | 1.1         | Balance totals, summary figures     |
+| Amount (medium) | `text-3xl font-bold font-mono text-foreground` | 30px | 700    | 1.2         | Card-level figures                  |
+| Amount (small)  | `text-sm font-medium font-mono text-foreground` | 14px | 500    | 1.6         | List row amounts                    |
 
 ---
 
@@ -34,8 +34,8 @@ Always use semantic color tokens — never raw Tailwind palette.
 // Primary text — for titles, important content
 <p className="text-foreground">
 
-// Secondary text — descriptions, supporting info
-<p className="text-muted-foreground">
+// Secondary text — descriptions, supporting info (maps to slate-500/gray-400 visually)
+<p className="text-muted-foreground text-sm">
 
 // On colored backgrounds (badges, primary buttons)
 <span className="text-primary-foreground">
@@ -55,9 +55,11 @@ Always use semantic color tokens — never raw Tailwind palette.
 ## Hierarchy Rules
 
 1. **Two levels max per component.** A card should have one `text-foreground` element and one `text-muted-foreground` element — not three layers.
-2. **Weight over size for emphasis.** Prefer `font-medium` → `font-semibold` before reaching for a larger `text-*` size.
-3. **Never bold body copy.** Bold is for headings and labels only. Inline emphasis uses `text-foreground` vs `text-muted-foreground` contrast, not `<strong>`.
-4. **Amounts are always mono.** Even a single-digit number in a transaction row uses `font-mono`.
+2. **Metric Dominance.** Primary metrics must be visually dominant. Use larger sizes (`text-3xl`+), stronger weights (`font-bold`), and high contrast (`text-foreground`).
+3. **Secondary Text Subordination.** Reduce the prominence of supporting text so it doesn't compete with metrics. Use `text-muted-foreground` (our semantic equivalent to `slate-500`/`gray-400`) combined with `text-sm` or `text-xs`.
+4. **Weight over size for emphasis.** Prefer `font-medium` → `font-semibold` before reaching for a larger `text-*` size for non-metric text.
+5. **Never bold body copy.** Bold is for headings, labels, and metrics only.
+6. **Amounts are always mono.** Even a single-digit number in a transaction row uses `font-mono`.
 
 ---
 

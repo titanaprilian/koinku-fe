@@ -106,7 +106,7 @@ function DashboardIndex() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold font-mono">{stats?.totalUsers ?? 0}</div>
+            <div className="text-3xl font-bold font-mono text-foreground">{stats?.totalUsers ?? 0}</div>
             <p className="text-xs text-muted-foreground">
               {stats?.inactiveUsers ?? 0} inactive {((stats?.inactiveUsers ?? 0) === 1) ? 'user' : 'users'}
             </p>
@@ -121,7 +121,7 @@ function DashboardIndex() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold font-mono">{stats?.activeUsers ?? 0}</div>
+            <div className="text-3xl font-bold font-mono text-foreground">{stats?.activeUsers ?? 0}</div>
             <p className="text-xs text-muted-foreground">
               {activePercentage}% of total users
             </p>
@@ -136,7 +136,7 @@ function DashboardIndex() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold font-mono">{stats?.totalRoles ?? 0}</div>
+            <div className="text-3xl font-bold font-mono text-foreground">{stats?.totalRoles ?? 0}</div>
             <p className="text-xs text-muted-foreground">Security access roles</p>
           </CardContent>
         </Card>
@@ -149,7 +149,7 @@ function DashboardIndex() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold font-mono">{stats?.totalFeatures ?? 0}</div>
+            <div className="text-3xl font-bold font-mono text-foreground">{stats?.totalFeatures ?? 0}</div>
             <p className="text-xs text-muted-foreground">Application features</p>
           </CardContent>
         </Card>
@@ -171,8 +171,9 @@ function DashboardIndex() {
                   <div key={item.roleName} className="space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-foreground">{item.roleName}</span>
-                      <span className="text-sm font-mono text-muted-foreground">
-                        {item.count} {item.count === 1 ? 'user' : 'users'} ({percentage}%)
+                      <span className="text-sm font-medium font-mono text-foreground">
+                        {item.count} {item.count === 1 ? 'user' : 'users'}{' '}
+                        <span className="font-normal text-muted-foreground">({percentage}%)</span>
                       </span>
                     </div>
                     <div className="w-full bg-muted rounded-full h-2">
