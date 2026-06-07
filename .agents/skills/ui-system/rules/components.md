@@ -352,6 +352,28 @@ const startNumber = (page - 1) * limit;
 </Table>
 ```
 
+**Table Wrapper Composition:**
+
+Always wrap Tables and their associated Filters/Pagination in a `TableWrapper` to maintain consistent structural styling (white background, borders, and padding).
+
+```tsx
+import { TableWrapper, TableWrapperHeader, TableWrapperContent, TableWrapperFooter } from "@/components/ui/table-wrapper"
+
+<TableWrapper>
+  <TableWrapperHeader>
+    <Filters />
+  </TableWrapperHeader>
+  <TableWrapperContent>
+    <Table>
+      {/* table content */}
+    </Table>
+  </TableWrapperContent>
+  <TableWrapperFooter>
+    <Pagination />
+  </TableWrapperFooter>
+</TableWrapper>
+```
+
 ---
 
 ### Pagination

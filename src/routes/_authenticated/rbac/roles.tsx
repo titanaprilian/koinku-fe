@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useRoles } from '@/features/roles/hooks/use-roles';
 import { RolesFilters } from '@/features/roles/components/roles-filters';
 import { RolesTable } from '@/features/roles/components/roles-table';
+import { TableWrapper, TableWrapperHeader } from '@/components/ui/table-wrapper';
 import type { GetRolesParams, Role } from '@/features/roles/types';
 import { RoleDetailDialog } from '@/features/roles/components/role-detail-dialog';
 import { CreateRoleDialog } from '@/features/roles/components/create-role-dialog';
@@ -85,20 +86,24 @@ function RolesPage() {
         </Button>
       </div>
 
-      <RolesFilters
-        search={searchParams.search || ''}
-        onFilterChange={updateFilters}
-      />
+      <TableWrapper>
+        <TableWrapperHeader>
+          <RolesFilters
+            search={searchParams.search || ''}
+            onFilterChange={updateFilters}
+          />
+        </TableWrapperHeader>
 
-      <RolesTable
-        data={data}
-        isLoading={isLoading}
-        onPageChange={handlePageChange}
-        onLimitChange={handleLimitChange}
-        onView={setViewRoleId}
-        onEdit={setEditRoleId}
-        onDelete={setDeleteRole}
-      />
+        <RolesTable
+          data={data}
+          isLoading={isLoading}
+          onPageChange={handlePageChange}
+          onLimitChange={handleLimitChange}
+          onView={setViewRoleId}
+          onEdit={setEditRoleId}
+          onDelete={setDeleteRole}
+        />
+      </TableWrapper>
 
       <RoleDetailDialog
         roleId={viewRoleId}

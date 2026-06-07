@@ -1,4 +1,4 @@
-import { Check, X } from 'lucide-react';
+import { Check, Minus } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -18,21 +18,21 @@ export function RolePermissionsTable({ permissions }: RolePermissionsTableProps)
     return value ? (
       <Check className="h-5 w-5 text-emerald-600 dark:text-emerald-500 mx-auto" />
     ) : (
-      <X className="h-5 w-5 text-muted-foreground/60 mx-auto" />
+      <Minus className="h-5 w-5 text-slate-300 dark:text-slate-700 mx-auto" />
     );
   };
 
   return (
-    <div className="w-full overflow-x-auto border rounded-lg">
+    <div className="w-full max-h-[350px] overflow-y-auto border rounded-lg relative">
       <Table>
-        <TableHeader>
-          <TableRow className="border-b border-border/50 hover:bg-transparent">
-            <TableHead className="px-4 py-3 text-left text-muted-foreground font-medium">Feature</TableHead>
-            <TableHead className="px-4 py-3 text-center text-muted-foreground font-medium">Create</TableHead>
-            <TableHead className="px-4 py-3 text-center text-muted-foreground font-medium">Read</TableHead>
-            <TableHead className="px-4 py-3 text-center text-muted-foreground font-medium">Update</TableHead>
-            <TableHead className="px-4 py-3 text-center text-muted-foreground font-medium">Delete</TableHead>
-            <TableHead className="px-4 py-3 text-center text-muted-foreground font-medium">Print</TableHead>
+        <TableHeader className="sticky top-0 bg-slate-50 dark:bg-zinc-900 z-10 shadow-xs">
+          <TableRow className="border-b border-slate-100 dark:border-zinc-800/80 hover:bg-transparent">
+            <TableHead className="px-4 py-3 text-left text-slate-600 dark:text-slate-400 font-semibold">Feature</TableHead>
+            <TableHead className="px-4 py-3 text-center text-slate-600 dark:text-slate-400 font-semibold">Create</TableHead>
+            <TableHead className="px-4 py-3 text-center text-slate-600 dark:text-slate-400 font-semibold">Read</TableHead>
+            <TableHead className="px-4 py-3 text-center text-slate-600 dark:text-slate-400 font-semibold">Update</TableHead>
+            <TableHead className="px-4 py-3 text-center text-slate-600 dark:text-slate-400 font-semibold">Delete</TableHead>
+            <TableHead className="px-4 py-3 text-center text-slate-600 dark:text-slate-400 font-semibold">Print</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -44,7 +44,7 @@ export function RolePermissionsTable({ permissions }: RolePermissionsTableProps)
             </TableRow>
           ) : (
             permissions.map((perm) => (
-              <TableRow key={perm.featureId} className="border-b border-border/50 hover:bg-muted/50 transition-colors">
+              <TableRow key={perm.featureId} className="border-b border-slate-100 dark:border-zinc-800/80 hover:bg-slate-50 dark:hover:bg-zinc-900/50 transition-colors">
                 <TableCell className="px-4 py-3 font-medium text-left">{perm.feature.name}</TableCell>
                 <TableCell className="px-4 py-3 text-center">{renderIcon(perm.canCreate)}</TableCell>
                 <TableCell className="px-4 py-3 text-center">{renderIcon(perm.canRead)}</TableCell>

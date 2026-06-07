@@ -26,6 +26,7 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { generatePaginationLinks } from '@/lib/pagination';
+import { TableWrapperContent, TableWrapperFooter } from '@/components/ui/table-wrapper';
 
 interface RolesTableProps {
   data?: PaginatedRolesResponse;
@@ -52,8 +53,8 @@ export function RolesTable({
   const startNumber = (data.pagination.page - 1) * data.pagination.limit;
 
   return (
-    <div className="space-y-4">
-      <div className="border rounded-md">
+    <>
+      <TableWrapperContent>
         <Table>
           <TableHeader>
             <TableRow className="border-b border-border/50 hover:bg-transparent">
@@ -114,10 +115,10 @@ export function RolesTable({
             )}
           </TableBody>
         </Table>
-      </div>
+      </TableWrapperContent>
       
       {data.data.length > 0 && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4">
+        <TableWrapperFooter>
           <div className="flex items-center space-x-2">
             <span className="text-sm text-muted-foreground">Rows per page</span>
             <Select
@@ -171,9 +172,9 @@ export function RolesTable({
               </PaginationContent>
             </Pagination>
           </div>
-        </div>
+        </TableWrapperFooter>
       )}
-    </div>
+    </>
   );
 }
 
