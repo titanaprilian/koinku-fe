@@ -3,6 +3,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { PlusIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+import { TableWrapper, TableWrapperHeader } from '@/components/ui/table-wrapper';
 import { useUsers } from '@/features/users/hooks/use-users';
 import { UsersFilters } from '@/features/users/components/users-filters';
 import { UsersTable } from '@/features/users/components/users-table';
@@ -94,15 +95,15 @@ function UsersPage() {
         </Button>
       </div>
 
-      <div className="bg-card text-card-foreground shadow-sm border rounded-xl">
-        <div className="p-6 border-b border-border">
+      <TableWrapper>
+        <TableWrapperHeader>
           <UsersFilters
             search={searchParams.search || ''}
             roleId={searchParams.roleId || ''}
             isActive={searchParams.isActive}
             onFilterChange={updateFilters}
           />
-        </div>
+        </TableWrapperHeader>
 
         <UsersTable
           data={data}
@@ -113,7 +114,7 @@ function UsersPage() {
           onEdit={setEditUserId}
           onDelete={setDeleteUserId}
         />
-      </div>
+      </TableWrapper>
 
       <CreateUserForm
         open={createOpen}

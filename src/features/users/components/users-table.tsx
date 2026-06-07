@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { TableWrapperContent, TableWrapperFooter } from '@/components/ui/table-wrapper';
 import { EyeIcon, PencilIcon, Trash2Icon } from 'lucide-react';
 import {
   Select,
@@ -53,8 +54,8 @@ export function UsersTable({
   const startNumber = (data.pagination.page - 1) * data.pagination.limit;
 
   return (
-    <div className="w-full">
-      <div className="w-full overflow-auto">
+    <>
+      <TableWrapperContent>
         <Table>
           <TableHeader className="bg-muted/50">
             <TableRow className="border-b border-border hover:bg-transparent">
@@ -133,10 +134,10 @@ export function UsersTable({
             )}
           </TableBody>
         </Table>
-      </div>
+      </TableWrapperContent>
       
       {data.data.length > 0 && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-6 border-t border-border">
+        <TableWrapperFooter>
           <div className="flex items-center space-x-2">
             <span className="text-sm text-muted-foreground">Rows per page</span>
             <Select
@@ -190,8 +191,8 @@ export function UsersTable({
               </PaginationContent>
             </Pagination>
           </div>
-        </div>
+        </TableWrapperFooter>
       )}
-    </div>
+    </>
   );
 }

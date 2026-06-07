@@ -1,4 +1,5 @@
-import { Loader2 } from 'lucide-react';
+import { Loader2, Copy } from 'lucide-react';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
@@ -40,15 +41,27 @@ export function RoleDetailDialog({ roleId, onOpenChange }: RoleDetailDialogProps
           <div className="space-y-6 mt-2">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left border rounded-xl p-5 bg-card shadow-xs">
               <div className="space-y-1">
-                <h4 className="text-xs font-semibold text-muted-foreground tracking-wider uppercase">Role ID</h4>
-                <p className="text-sm font-mono bg-muted/60 px-2 py-1 rounded inline-block select-all">{role.id}</p>
+                <h4 className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 tracking-wider uppercase">Role ID</h4>
+                <div className="flex items-center gap-2 group">
+                  <p className="text-sm font-mono bg-muted/60 px-2 py-1 rounded select-all">{role.id}</p>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(role.id);
+                      toast.success('Role ID copied to clipboard');
+                    }}
+                    className="p-1 rounded hover:bg-muted text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
+                    title="Copy Role ID"
+                  >
+                    <Copy className="h-3.5 w-3.5" />
+                  </button>
+                </div>
               </div>
               <div className="space-y-1">
-                <h4 className="text-xs font-semibold text-muted-foreground tracking-wider uppercase">Name</h4>
+                <h4 className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 tracking-wider uppercase">Name</h4>
                 <p className="text-sm font-medium text-foreground">{role.name}</p>
               </div>
               <div className="md:col-span-2 space-y-1 border-t border-border pt-4">
-                <h4 className="text-xs font-semibold text-muted-foreground tracking-wider uppercase">Description</h4>
+                <h4 className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 tracking-wider uppercase">Description</h4>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   {role.description || 'No description provided.'}
                 </p>

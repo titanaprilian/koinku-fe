@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { typeboxResolver } from '@hookform/resolvers/typebox';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Shield, FileText } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -209,7 +209,14 @@ export function CreateRoleDialog({ open, onOpenChange }: CreateRoleDialogProps) 
                   <FormItem>
                     <FormLabel>Role Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. Editor" {...field} />
+                      <div className="relative">
+                        <Shield className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                        <Input
+                          placeholder="e.g. Editor"
+                          className="pl-10 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20"
+                          {...field}
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                     {serverIssues.find((i) => i.path === 'name') && (
@@ -228,7 +235,14 @@ export function CreateRoleDialog({ open, onOpenChange }: CreateRoleDialogProps) 
                   <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Input placeholder="Optional description" {...field} />
+                      <div className="relative">
+                        <FileText className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                        <Input
+                          placeholder="Optional description"
+                          className="pl-10 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20"
+                          {...field}
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                     {serverIssues.find((i) => i.path === 'description') && (
@@ -257,20 +271,20 @@ export function CreateRoleDialog({ open, onOpenChange }: CreateRoleDialogProps) 
                   No features available.
                 </p>
               ) : (
-                <div className="w-full overflow-x-auto border rounded-lg">
+                <div className="w-full max-h-[350px] overflow-y-auto border rounded-lg relative">
                   <Table>
-                    <TableHeader>
-                      <TableRow className="border-b border-border/50 hover:bg-transparent">
-                        <TableHead className="px-4 py-3 text-left text-muted-foreground font-medium">
+                    <TableHeader className="sticky top-0 bg-slate-50 dark:bg-zinc-900 z-10 shadow-xs">
+                      <TableRow className="border-b border-slate-100 dark:border-zinc-800/80 hover:bg-transparent">
+                        <TableHead className="px-4 py-3 text-left text-slate-600 dark:text-slate-400 font-semibold">
                           Feature
                         </TableHead>
-                        <TableHead className="px-4 py-3 text-center text-muted-foreground font-medium">
+                        <TableHead className="px-4 py-3 text-center text-slate-600 dark:text-slate-400 font-semibold">
                           All
                         </TableHead>
                         {OPERATIONS.map((op) => (
                           <TableHead
-                              key={op}
-                              className="px-4 py-3 text-center text-muted-foreground font-medium"
+                            key={op}
+                            className="px-4 py-3 text-center text-slate-600 dark:text-slate-400 font-semibold"
                           >
                             {OPERATION_LABELS[op]}
                           </TableHead>
@@ -281,7 +295,7 @@ export function CreateRoleDialog({ open, onOpenChange }: CreateRoleDialogProps) 
                       {features.map((feature) => (
                         <TableRow
                           key={feature.id}
-                          className="border-b border-border/50 hover:bg-muted/50 transition-colors"
+                          className="border-b border-slate-100 dark:border-zinc-800/80 hover:bg-slate-50 dark:hover:bg-zinc-900/50 transition-colors"
                         >
                           <TableCell className="px-4 py-3 font-medium text-left">
                             {feature.name}
