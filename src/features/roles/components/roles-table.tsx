@@ -27,6 +27,7 @@ import {
 } from '@/components/ui/pagination';
 import { generatePaginationLinks } from '@/lib/pagination';
 import { TableWrapperContent, TableWrapperFooter } from '@/components/ui/table-wrapper';
+import { useRbac } from '@/features/roles/components/rbac-provider';
 
 interface RolesTableProps {
   data?: PaginatedRolesResponse;
@@ -47,6 +48,8 @@ export function RolesTable({
   onEdit,
   onDelete,
 }: RolesTableProps) {
+  const { hasPermission } = useRbac();
+
   if (isLoading) return <div className="py-8 text-center text-muted-foreground">Loading roles...</div>;
   if (!data) return null;
 
@@ -83,26 +86,30 @@ export function RolesTable({
                     <EyeIcon className="h-4 w-4" />
                     <span className="sr-only">Detail</span>
                   </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="hover:bg-muted text-muted-foreground"
-                    onClick={() => onEdit(role.id)}
-                    title="Edit"
-                  >
-                    <PencilIcon className="h-4 w-4" />
-                    <span className="sr-only">Edit</span>
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="hover:bg-destructive/10 hover:text-destructive text-muted-foreground"
-                    onClick={() => onDelete(role)}
-                    title="Delete"
-                  >
-                    <Trash2Icon className="h-4 w-4" />
-                    <span className="sr-only">Delete</span>
-                  </Button>
+                  {hasPermission('RBAC_management', 'canUpdate') && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="hover:bg-muted text-muted-foreground"
+                      onClick={() => onEdit(role.id)}
+                      title="Edit"
+                    >
+                      <PencilIcon className="h-4 w-4" />
+                      <span className="sr-only">Edit</span>
+                    </Button>
+                  )}
+                  {hasPermission('RBAC_management', 'canDelete') && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="hover:bg-destructive/10 hover:text-destructive text-muted-foreground"
+                      onClick={() => onDelete(role)}
+                      title="Delete"
+                    >
+                      <Trash2Icon className="h-4 w-4" />
+                      <span className="sr-only">Delete</span>
+                    </Button>
+                  )}
                 </TableCell>
               </TableRow>
             ))}

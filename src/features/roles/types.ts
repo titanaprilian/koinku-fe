@@ -189,3 +189,27 @@ export interface DeleteRoleResponse {
   };
 }
 
+// ─── My Role (Current User) ─────────────────────────────────────────────────
+
+export interface MyRolePermission {
+  featureId: string;
+  featureName: string;
+  canCreate: boolean;
+  canRead: boolean;
+  canUpdate: boolean;
+  canDelete: boolean;
+  canPrint: boolean;
+}
+
+export interface MyRoleData {
+  roleName: string;
+  permissions: MyRolePermission[];
+}
+
+export interface GetMyRoleResponse {
+  error: boolean;
+  code: number;
+  message: string;
+  data: MyRoleData;
+}
+

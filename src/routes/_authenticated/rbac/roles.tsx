@@ -11,6 +11,7 @@ import { RoleDetailDialog } from '@/features/roles/components/role-detail-dialog
 import { CreateRoleDialog } from '@/features/roles/components/create-role-dialog';
 import { EditRoleDialog } from '@/features/roles/components/edit-role-dialog';
 import { DeleteRoleDialog } from '@/features/roles/components/delete-role-dialog';
+import { useRbac } from '@/features/roles/components/rbac-provider';
 
 export const Route = createFileRoute('/_authenticated/rbac/roles')({
   validateSearch: (search: Record<string, unknown>): GetRolesParams => {
@@ -31,6 +32,7 @@ function RolesPage() {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [deleteRole, setDeleteRole] = useState<Role | null>(null);
 
+  const { hasPermission } = useRbac();
   const { data, isLoading } = useRoles(searchParams);
 
   useEffect(() => {
@@ -80,10 +82,12 @@ function RolesPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold tracking-tight">Roles</h1>
-        <Button onClick={() => setCreateDialogOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" />
-          Create Role
-        </Button>
+        {hasPermission('RBAC_management', 'canCreate') && (
+          <Button onClick={() => setCreateDialogOpen(true)}>
+            <Plus className="mr-2 h-4 w-4" />
+            Create Role
+          </Button>
+        )}
       </div>
 
       <TableWrapper>

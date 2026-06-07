@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { LayoutDashboard, Users, ShieldAlert, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useRbac } from '@/features/roles/components/rbac-provider';
 
 export interface SidebarProps {
   isOpen: boolean;
@@ -8,6 +9,8 @@ export interface SidebarProps {
 }
 
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
+  const { hasPermission } = useRbac();
+
   return (
     <div
       className={`fixed inset-y-0 left-0 z-50 w-64 bg-card border-r flex flex-col h-full transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 ${
@@ -35,23 +38,28 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           <LayoutDashboard className="w-4 h-4" />
           Dashboard
         </Link>
-        <Link
-          to="/users"
-          onClick={onClose}
-          className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium hover:bg-accent hover:text-accent-foreground [&.active]:bg-accent [&.active]:text-accent-foreground"
-        >
-          <Users className="w-4 h-4" />
-          Users
-        </Link>
-        <Link
-          to="/rbac/roles"
-          onClick={onClose}
-          className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium hover:bg-accent hover:text-accent-foreground [&.active]:bg-accent [&.active]:text-accent-foreground"
-        >
-          <ShieldAlert className="w-4 h-4" />
-          RBAC
-        </Link>
+        {hasPermission('user_management', 'canRead') && (
+          <Link
+            to="/users"
+            onClick={onClose}
+            className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium hover:bg-accent hover:text-accent-foreground [&.active]:bg-accent [&.active]:text-accent-foreground"
+          >
+            <Users className="w-4 h-4" />
+            Users
+          </Link>
+        )}
+        {hasPermission('RBAC_management', 'canRead') && (
+          <Link
+            to="/rbac/roles"
+            onClick={onClose}
+            className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium hover:bg-accent hover:text-accent-foreground [&.active]:bg-accent [&.active]:text-accent-foreground"
+          >
+            <ShieldAlert className="w-4 h-4" />
+            RBAC
+          </Link>
+        )}
       </nav>
     </div>
   );
 }
+
