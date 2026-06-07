@@ -75,7 +75,15 @@ api.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    // 2. Only attempt refresh on 401 for other endpoints, and only once per request
+    // 2. Short-circuit: if the login request fails with a 401, do not attempt to refresh
+    if (
+      error.response?.status === 401 &&
+      originalRequest.url?.endsWith('/auth/login')
+    ) {
+      return Promise.reject(error);
+    }
+
+    // 3. Only attempt refresh on 401 for other endpoints, and only once per request
     if (error.response?.status !== 401 || originalRequest._retried) {
       return Promise.reject(error);
     }
