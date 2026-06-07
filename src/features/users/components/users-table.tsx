@@ -28,6 +28,7 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { generatePaginationLinks } from '@/lib/pagination';
+import { useRbac } from '@/features/roles/components/rbac-provider';
 
 interface UsersTableProps {
   data?: PaginatedUsersResponse;
@@ -48,6 +49,8 @@ export function UsersTable({
   onEdit,
   onDelete,
 }: UsersTableProps) {
+  const { hasPermission } = useRbac();
+
   if (isLoading) return <div className="p-6 text-center text-muted-foreground">Loading users...</div>;
   if (!data) return null;
 
@@ -100,28 +103,32 @@ export function UsersTable({
                     <EyeIcon className="h-4 w-4" />
                     <span className="sr-only">Detail</span>
                   </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    id={`edit-user-${user.id}`}
-                    className="hover:bg-muted text-muted-foreground"
-                    onClick={() => onEdit(user.id)}
-                    title="Edit"
-                  >
-                    <PencilIcon className="h-4 w-4" />
-                    <span className="sr-only">Edit</span>
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    id={`delete-user-${user.id}`}
-                    className="hover:bg-destructive/10 text-muted-foreground hover:text-destructive"
-                    onClick={() => onDelete?.(user.id)}
-                    title="Delete"
-                  >
-                    <Trash2Icon className="h-4 w-4" />
-                    <span className="sr-only">Delete</span>
-                  </Button>
+                  {hasPermission('user_management', 'canUpdate') && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      id={`edit-user-${user.id}`}
+                      className="hover:bg-muted text-muted-foreground"
+                      onClick={() => onEdit(user.id)}
+                      title="Edit"
+                    >
+                      <PencilIcon className="h-4 w-4" />
+                      <span className="sr-only">Edit</span>
+                    </Button>
+                  )}
+                  {hasPermission('user_management', 'canDelete') && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      id={`delete-user-${user.id}`}
+                      className="hover:bg-destructive/10 text-muted-foreground hover:text-destructive"
+                      onClick={() => onDelete?.(user.id)}
+                      title="Delete"
+                    >
+                      <Trash2Icon className="h-4 w-4" />
+                      <span className="sr-only">Delete</span>
+                    </Button>
+                  )}
                 </TableCell>
               </TableRow>
             ))}

@@ -12,6 +12,7 @@ import { UserDetailDialog } from '@/features/users/components/user-detail-dialog
 import { EditUserForm } from '@/features/users/components/edit-user-form';
 import { DeleteUserDialog } from '@/features/users/components/delete-user-dialog';
 import type { GetUsersParams } from '@/features/users/types';
+import { useRbac } from '@/features/roles/components/rbac-provider';
 
 export const Route = createFileRoute('/_authenticated/users/')({
   validateSearch: (search: Record<string, unknown>): GetUsersParams & { create?: boolean } => {
@@ -40,6 +41,7 @@ function UsersPage() {
   const [editUserId, setEditUserId] = useState<string | null>(null);
   const [deleteUserId, setDeleteUserId] = useState<string | null>(null);
 
+  const { hasPermission } = useRbac();
   const { data, isLoading } = useUsers(searchParams);
 
   useEffect(() => {
@@ -89,10 +91,12 @@ function UsersPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold tracking-tight">Users</h1>
-        <Button id="add-user-button" onClick={() => setCreateOpen(true)}>
-          <PlusIcon className="mr-2 h-4 w-4" />
-          Add User
-        </Button>
+        {hasPermission('user_management', 'canCreate') && (
+          <Button id="add-user-button" onClick={() => setCreateOpen(true)}>
+            <PlusIcon className="mr-2 h-4 w-4" />
+            Add User
+          </Button>
+        )}
       </div>
 
       <TableWrapper>

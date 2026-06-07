@@ -1,5 +1,6 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 import { AppLayout } from '@/components/layout/app-layout';
+import { RbacProvider } from '@/features/roles/components/rbac-provider';
 
 export const Route = createFileRoute('/_authenticated')({
   beforeLoad: ({ context, location }) => {
@@ -14,8 +15,11 @@ export const Route = createFileRoute('/_authenticated')({
     }
   },
   component: () => (
-    <AppLayout>
-      <Outlet />
-    </AppLayout>
+    <RbacProvider>
+      <AppLayout>
+        <Outlet />
+      </AppLayout>
+    </RbacProvider>
   ),
 });
+
