@@ -12,6 +12,12 @@ A production-ready React starter template with JWT authentication, type-safe rou
 - **Feature-based architecture:** Code organized by domain (`features/auth`, `features/users`, `features/roles`, `features/stats`) with co-located components, hooks, API functions, and types.
 - **shadcn/ui components:** Pre-configured with the Base Nova style, Tailwind CSS v4, and Lucide icons.
 
+## Backend
+
+This starter template requires a compatible backend for authentication. You can use the following backend implementation:
+
+- [elysia-auth-starter](https://github.com/titanaprilian/elysia-auth-starter) — A compatible backend built with Elysia.js.
+
 ## Getting Started
 
 ```bash
